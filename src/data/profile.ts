@@ -40,7 +40,7 @@ export const aboutNarrative = [
 export const education = {
   institution: "University of Florida",
   degrees: ["B.S. Pre-professional Biology", "B.S. Chemistry, Biochemistry Emphasis"],
-  minors: "Minor: Statistics",
+  minors: "Minors: Bioinformatics and Statistics",
   expected: "Expected May 2027",
   gpa: "GPA 3.99 / 4.00",
 };
