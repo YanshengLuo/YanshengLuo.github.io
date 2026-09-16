@@ -1,0 +1,153 @@
+---
+// Compact project-section navigator, fixed at the right edge on wide screens
+// only (>= 1200px). Built from the page's own H2 headings, so each project keeps
+// its own section rhythm. Plain anchor links work without JavaScript.
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const sections = Astro.props.headings.filter((heading) => heading.depth === 2);
+---
+
+{
+  sections.length > 1 && (
+    <nav class="project-rail" aria-label="Project sections" data-project-rail>
+      <span class="project-rail__track" aria-hidden="true">
+        <span class="project-rail__progress" />
+      </span>
+      <ul>
+        {sections.map((heading) => (
+          <li>
+            <a href={`#${heading.slug}`} data-project-rail-link={heading.slug}>
+              <span class="project-rail__label">{heading.text}</span>
+              <span class="project-rail__node" aria-hidden="true" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<script>
+  import "../scripts/project-rail";
+</script>
+
+<style>
+  .project-rail {
+    display: none;
+  }
+
+  @media (min-width: 75rem) {
+    .project-rail {
+      position: fixed;
+      right: clamp(0.75rem, 1.35vw, 1.4rem);
+      top: 50%;
+      z-index: 35;
+      display: block;
+      transform: translateY(-50%);
+    }
+
+    .project-rail__track {
+      position: absolute;
+      right: 5px;
+      top: 6px;
+      bottom: 6px;
+      width: 1px;
+      background: #c8d5e0;
+    }
+
+    .project-rail__progress {
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: var(--project-rail-progress, 0%);
+      background: var(--project-accent, var(--accent));
+      transition: height var(--motion-ui) var(--motion-ease);
+    }
+
+    .project-rail ul {
+      position: relative;
+      display: grid;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .project-rail a {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.55rem;
+      min-height: 22px;
+      color: #7b8894;
+      font-size: 0.6rem;
+      font-weight: 650;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color var(--motion-micro) var(--motion-ease);
+    }
+
+    .project-rail__label {
+      max-width: 12rem;
+      padding: 0.12rem 0.32rem;
+      overflow: hidden;
+      border-radius: 5px;
+      background: rgba(249, 251, 252, 0.88);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      opacity: 0;
+      transform: translateX(4px);
+      transition:
+        opacity var(--motion-ui) var(--motion-ease),
+        transform var(--motion-ui) var(--motion-ease);
+    }
+
+    .project-rail:hover .project-rail__label,
+    .project-rail a:focus-visible .project-rail__label,
+    .project-rail a[aria-current="true"] .project-rail__label {
+      opacity: 1;
+      transform: none;
+    }
+
+    .project-rail__node {
+      flex: 0 0 auto;
+      width: 11px;
+      height: 11px;
+      border: 2px solid #b9c7d3;
+      border-radius: 50%;
+      background: #f9fbfc;
+      transition:
+        background-color var(--motion-ui) var(--motion-ease),
+        border-color var(--motion-ui) var(--motion-ease),
+        box-shadow var(--motion-ui) var(--motion-ease);
+    }
+
+    .project-rail a:hover .project-rail__node {
+      border-color: var(--project-accent, var(--accent));
+    }
+
+    .project-rail a[aria-current="true"] {
+      color: var(--project-accent, var(--accent));
+      font-weight: 800;
+    }
+
+    .project-rail a[aria-current="true"] .project-rail__node {
+      border-color: var(--project-accent, var(--accent));
+      background: var(--project-accent, var(--accent));
+      box-shadow: 0 0 0 5px color-mix(in srgb, var(--project-accent, var(--accent)) 10%, transparent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-rail__progress,
+    .project-rail a,
+    .project-rail__label,
+    .project-rail__node {
+      transition: none;
+    }
+  }
+</style>

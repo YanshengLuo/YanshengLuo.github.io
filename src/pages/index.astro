@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import HomeSections from "../components/HomeSections.astro";
+import ChapterRail from "../components/ChapterRail.astro";
+import { site } from "../data/profile";
+import { links } from "../data/social";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  url: site.url,
+  affiliation: {
+    "@type": "CollegeOrUniversity",
+    name: "University of Florida",
+  },
+  sameAs: [links.github, links.linkedin, links.orcid],
+};
+---
+
+<BaseLayout jsonLd={jsonLd} ogType="profile">
+  <ChapterRail />
+  <Hero />
+  <HomeSections />
+</BaseLayout>

@@ -1,0 +1,184 @@
+---
+// Single native <dialog> per page, filled by lightbox.ts from the clicked
+// project figure. Esc and backdrop clicks close it; focus returns to the opener.
+// With more than one figure on the page, Previous/Next and the arrow keys step
+// through them in document order.
+---
+
+<dialog class="lightbox" data-lightbox aria-label="Enlarged image">
+  <div class="lightbox__inner">
+    <div class="lightbox__bar">
+      <p class="lightbox__count" data-lightbox-count aria-live="polite"></p>
+      <div class="lightbox__nav" data-lightbox-nav>
+        <button type="button" data-lightbox-prev aria-label="Previous image">
+          <span aria-hidden="true">←</span>
+        </button>
+        <button type="button" data-lightbox-next aria-label="Next image">
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <button class="lightbox__close" type="button" data-lightbox-close>
+        Close <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <figure class="lightbox__figure">
+      <img data-lightbox-image alt="" decoding="async" />
+      <figcaption data-lightbox-caption></figcaption>
+    </figure>
+  </div>
+</dialog>
+
+<script>
+  import "../scripts/lightbox";
+</script>
+
+<style>
+  .lightbox {
+    width: min(96vw, 1400px);
+    max-width: none;
+    max-height: 94vh;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    background: var(--surface);
+    border: 0;
+    border-radius: var(--radius);
+    color: var(--text);
+  }
+
+  .lightbox[open] {
+    animation: lightbox-in var(--motion-ui) var(--motion-ease) both;
+  }
+
+  @keyframes lightbox-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px) scale(0.985);
+    }
+  }
+
+  .lightbox::backdrop {
+    background: rgb(21 24 26 / 0.8);
+  }
+
+  .lightbox__inner {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    max-height: 94vh;
+  }
+
+  .lightbox__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.5rem 0 clamp(0.75rem, 2vw, 1.5rem);
+  }
+
+  .lightbox__count {
+    padding: 0.35rem 0.6rem;
+    border: 1px solid #d6dfe5;
+    border-radius: 999px;
+    color: #65717a;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lightbox__count:empty {
+    display: none;
+  }
+
+  .lightbox__nav {
+    display: flex;
+    gap: 0.35rem;
+    margin-left: auto;
+  }
+
+  .lightbox__nav[hidden] {
+    display: none;
+  }
+
+  .lightbox__nav button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #cbd7df;
+    border-radius: 999px;
+    background: #fff;
+    color: #314b5c;
+    font-size: 1rem;
+    cursor: pointer;
+    transition:
+      transform var(--motion-micro) var(--motion-ease),
+      border-color var(--motion-micro) var(--motion-ease);
+  }
+
+  .lightbox__nav button:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .lightbox__close {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    margin-left: auto;
+    padding: 0 0.9rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color var(--motion-micro) var(--motion-ease);
+  }
+
+  .lightbox__nav:not([hidden]) + .lightbox__close {
+    margin-left: 0.5rem;
+  }
+
+  .lightbox__close:hover {
+    border-color: var(--accent);
+  }
+
+  .lightbox__close span {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .lightbox__figure {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    min-height: 0;
+    padding: 0.75rem clamp(0.75rem, 2vw, 1.5rem) 1.25rem;
+  }
+
+  .lightbox__figure img {
+    width: 100%;
+    height: 100%;
+    max-height: calc(94vh - 8rem);
+    object-fit: contain;
+  }
+
+  .lightbox__figure figcaption {
+    max-width: 70ch;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lightbox[open] {
+      animation: none;
+    }
+
+    .lightbox__nav button,
+    .lightbox__nav button:hover {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

@@ -1,0 +1,26 @@
+.funnel { --funnel-accent: #5d4f8b; display: grid; gap: 1rem; min-width: 0; padding: clamp(1rem, 3vw, 2rem); border-top: 2px solid var(--funnel-accent); background: #f2f0f7; color: #302e40; }
+.funnel__eyebrow { color: var(--funnel-accent); font-size: .7rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.funnel__stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; align-items: end; }
+.funnel__stages button { display: grid; align-content: center; min-width: 0; min-height: 100px; padding: .8rem; border: 1px solid #bcb6cc; background: #fff; color: #463d60; text-align: left; cursor: pointer; transition: background-color var(--motion-ui) var(--motion-ease), border-color var(--motion-ui) var(--motion-ease), transform var(--motion-ui) var(--motion-ease); }
+.funnel__stages button:nth-child(2) { min-height: 88px; }
+.funnel__stages button:nth-child(3) { min-height: 76px; }
+.funnel__stages button strong { font-size: clamp(1.6rem, 3vw, 2.5rem); line-height: 1; letter-spacing: -.04em; }
+.funnel__stages button span { margin-top: .5rem; font-size: .74rem; font-weight: 650; }
+.funnel__stages button:hover, .funnel__stages button:focus-visible, .funnel__stages button[aria-pressed="true"] { border-color: var(--funnel-accent); background: #e6e0f0; }
+.funnel__panel { min-height: 110px; padding: 1rem; border-left: 3px solid var(--funnel-accent); background: #fff; }
+.funnel__panel strong { font-size: 1.1rem; }
+.funnel__panel p { margin-top: .4rem; font-size: .85rem; }
+.funnel__scope { padding-top: .6rem; border-top: 1px solid #c7c0d4; color: #615a6c; font-size: .76rem; }
+.funnel__fallback { display: grid; gap: .5rem; font-size: .75rem; }
+.funnel__fallback dt { font-weight: 700; }
+.funnel__fallback dd { margin: 0; }
+.funnel[data-enabled] .funnel__fallback { display: none; }
+.funnel:not([data-enabled]) .funnel__stages { display: none; }
+@media (max-width: 719px) {
+  .funnel__stages { grid-template-columns: 1fr; }
+  .funnel__stages button, .funnel__stages button:nth-child(2), .funnel__stages button:nth-child(3) { min-height: 64px; display: flex; align-items: center; gap: 1rem; }
+  .funnel__stages button strong { min-width: 3.5rem; }
+  .funnel__panel { min-height: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .funnel__stages button { transition: none; } }
+

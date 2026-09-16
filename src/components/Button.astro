@@ -1,0 +1,17 @@
+---
+interface Props {
+  href: string;
+  variant?: "primary" | "plain";
+  /** Adds a trailing arrow. */
+  arrow?: boolean;
+  /** Suggested file name; turns the link into a download. */
+  download?: string;
+}
+
+const { href, variant = "primary", arrow = false, download } = Astro.props;
+---
+
+<a class:list={["btn", variant === "primary" && "btn--primary"]} href={href} download={download}>
+  <slot />
+  {arrow && <span class="arrow" aria-hidden="true">→</span>}
+</a>

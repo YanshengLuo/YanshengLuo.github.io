@@ -1,0 +1,9 @@
+---
+import { getEntry } from "astro:content";
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+
+const entry = await getEntry("research", "pdac");
+if (!entry) throw new Error("Missing research entry: pdac");
+---
+
+<ProjectLayout entry={entry} />

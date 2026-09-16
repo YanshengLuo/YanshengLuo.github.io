@@ -1,0 +1,31 @@
+---
+import { Image } from "astro:assets";
+import drg from "../assets/research/regeneration/drg-culture.webp";
+import posterPhoto from "../assets/research/regeneration/poster-photo.webp";
+---
+<div class="regeneration-gallery" aria-label="Approved regeneration research images">
+  <figure>
+    <a data-lightbox-trigger href="/images/drg-culture-1600.webp" data-full="/images/drg-culture-1600.webp" data-width="1600" data-height="1600" data-alt="Fluorescence image of a dorsal root ganglion explant in culture, with neurites extending outward from the central ganglion." data-caption="Dorsal root ganglion explant in three-dimensional culture, imaged by fluorescence microscopy." aria-label="Enlarge DRG explant microscopy image">
+      <Image src={drg} alt="Fluorescence image of a dorsal root ganglion explant in culture, with neurites extending outward from the central ganglion." widths={[600, 900, 1200]} sizes="(min-width: 1200px) 700px, 90vw" />
+    </a>
+    <figcaption>Dorsal root ganglion explant in three-dimensional culture, imaged by fluorescence microscopy. <span>Open image ↗</span></figcaption>
+  </figure>
+  <figure>
+    <a data-lightbox-trigger href={posterPhoto.src} data-full={posterPhoto.src} data-width={posterPhoto.width} data-height={posterPhoto.height} data-alt="Yansheng Luo standing beside a public Acomys and Mus DRG explant research poster." data-caption="Yansheng Luo with the public comparative regeneration research poster." aria-label="Enlarge public research presentation photograph">
+      <Image src={posterPhoto} alt="Yansheng Luo standing beside a public Acomys and Mus DRG explant research poster." widths={[420, 640, 960]} sizes="(min-width: 1200px) 350px, 90vw" />
+    </a>
+    <figcaption>Comparative regeneration poster presentation. <span>Open image ↗</span></figcaption>
+  </figure>
+</div>
+<style>
+  .regeneration-gallery { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(1rem, 3vw, 2.5rem); align-items: end; }
+  .regeneration-gallery figure { min-width: 0; }
+  .regeneration-gallery a { display: block; overflow: hidden; }
+  .regeneration-gallery img { width: 100%; height: auto; max-height: 620px; object-fit: cover; }
+  .regeneration-gallery figure:first-child img { aspect-ratio: 1 / 1; }
+  .regeneration-gallery figure:nth-child(2) img { aspect-ratio: 4 / 5; }
+  .regeneration-gallery figcaption { display: flex; justify-content: space-between; gap: 1rem; margin-top: .6rem; color: var(--muted); font-size: .75rem; }
+  .regeneration-gallery figcaption span { color: #3d6656; font-weight: 650; white-space: nowrap; }
+  @media (max-width: 719px) { .regeneration-gallery { grid-template-columns: 1fr; } }
+</style>
+

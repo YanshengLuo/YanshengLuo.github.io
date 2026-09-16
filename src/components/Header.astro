@@ -1,0 +1,286 @@
+---
+const items = [
+  { label: "Research", href: "/#throughline" },
+  { label: "Work", href: "/work/" },
+  { label: "About", href: "/about/" },
+  { label: "CV", href: "/cv/" },
+];
+
+const path = Astro.url.pathname;
+// The homepage opens with a photographic hero, so the header sits over it
+// transparently until the page is scrolled.
+const overlay = path === "/";
+// Research is a homepage anchor; project pages count as being "in" Research.
+const current = (href: string) =>
+  href === "/#throughline"
+    ? path.startsWith("/research/")
+      ? "true"
+      : undefined
+    : path.startsWith(href)
+      ? "page"
+      : undefined;
+---
+
+<header class:list={["site-header", overlay && "site-header--overlay"]} data-site-header>
+  <div class="container site-header__inner">
+    <a class="site-header__name" href="/">Yansheng Luo</a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+      <span class="nav-toggle__icon" aria-hidden="true"><span></span><span></span></span>
+      <span data-nav-label>Menu</span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Primary">
+      <ul>
+        {
+          items.map((item) => (
+            <li>
+              <a href={item.href} aria-current={current(item.href)}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* Transparent over the homepage hero, solid once scrolled or opened. */
+  .site-header.site-header--overlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    background: transparent;
+    border-bottom-color: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .site-header--overlay .site-header__name {
+    color: #fff;
+  }
+
+  .site-header--overlay .site-nav a {
+    color: rgba(255, 255, 255, 0.86);
+  }
+
+  .site-header--overlay .site-nav a:hover,
+  .site-header--overlay .site-nav a[aria-current] {
+    color: #fff;
+  }
+
+  .site-header--overlay :global(.nav-toggle) {
+    color: #fff;
+  }
+
+  .site-header--overlay:global(.is-scrolled),
+  .site-header--overlay:global(.menu-open) {
+    background: rgba(250, 252, 253, 0.88);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+  }
+
+  .site-header--overlay:global(.is-scrolled) .site-header__name,
+  .site-header--overlay:global(.menu-open) .site-header__name {
+    color: var(--text);
+  }
+
+  .site-header--overlay:global(.is-scrolled) .site-nav a,
+  .site-header--overlay:global(.menu-open) .site-nav a {
+    color: var(--muted);
+  }
+
+  .site-header--overlay:global(.is-scrolled) .site-nav a:hover,
+  .site-header--overlay:global(.is-scrolled) .site-nav a[aria-current],
+  .site-header--overlay:global(.menu-open) .site-nav a:hover {
+    color: var(--accent);
+  }
+
+  .site-header--overlay:global(.is-scrolled) :global(.nav-toggle),
+  .site-header--overlay:global(.menu-open) :global(.nav-toggle) {
+    color: var(--text);
+  }
+
+  .site-header,
+  .site-header__name,
+  .site-nav a {
+    transition:
+      background-color var(--motion-micro) var(--motion-ease),
+      border-color var(--motion-micro) var(--motion-ease),
+      color var(--motion-micro) var(--motion-ease);
+  }
+
+  /* Internal routes: a solid, light header with dark text on every page. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--header-h);
+    background: rgba(250, 252, 253, 0.92);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .site-header:global(.is-scrolled),
+  .site-header:global(.menu-open) {
+    border-bottom-color: var(--border);
+  }
+
+  .site-header__inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .site-header__name {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--text);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+
+  .site-nav ul {
+    display: flex;
+    gap: clamp(1.1rem, 2.4vw, 2rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--muted);
+    font-size: 0.97rem;
+    text-decoration: none;
+  }
+
+  .site-nav a:hover {
+    color: var(--text);
+  }
+
+  .site-nav a[aria-current] {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  @media (max-width: 47.99rem) {
+    /* Without JS: name and links wrap onto a compact second row. */
+    .site-header {
+      height: auto;
+      min-height: var(--header-h);
+    }
+
+    .site-header__inner {
+      flex-wrap: wrap;
+      padding-block: 0.25rem;
+      column-gap: 1.25rem;
+    }
+
+    .site-nav ul {
+      gap: 1.1rem;
+    }
+
+    /* With JS: menu button and dropdown panel. */
+    :global([data-js]) .site-header {
+      height: var(--header-h);
+    }
+
+    :global([data-js]) .site-header__inner {
+      flex-wrap: nowrap;
+      padding-block: 0;
+    }
+
+    :global([data-js]) .nav-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-width: 44px;
+      min-height: 44px;
+      margin-right: -0.4rem;
+      padding: 0 0.4rem 0 0.6rem;
+      background: none;
+      border: 0;
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    :global([data-js]) .site-nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      display: none;
+      padding: 0.25rem var(--gutter) 1rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    :global([data-js]) .site-nav:global(.is-open) {
+      display: block;
+    }
+
+    :global([data-js]) .site-nav ul {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    :global([data-js]) .site-nav li + li {
+      border-top: 1px solid var(--border);
+    }
+
+    :global([data-js]) .site-nav a {
+      display: flex;
+      min-height: 3rem;
+      color: var(--text);
+      font-size: 1.05rem;
+    }
+  }
+
+  .nav-toggle__icon {
+    position: relative;
+    width: 17px;
+    height: 9px;
+  }
+
+  .nav-toggle__icon span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform var(--dur-ui) var(--ease-out);
+  }
+
+  .nav-toggle__icon span:first-child {
+    top: 0;
+  }
+
+  .nav-toggle__icon span:last-child {
+    bottom: 0;
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle__icon span:first-child {
+    transform: translateY(3.75px) rotate(45deg);
+  }
+
+  .nav-toggle[aria-expanded="true"] .nav-toggle__icon span:last-child {
+    transform: translateY(-3.75px) rotate(-45deg);
+  }
+</style>

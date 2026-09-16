@@ -1,0 +1,105 @@
+---
+import { Image } from "astro:assets";
+import drg from "../assets/research/regeneration/drg-culture.webp";
+import portrait from "../assets/profile/portrait.webp";
+import { stages, chronology } from "../data/journey";
+import "../styles/research-throughline.css";
+---
+<section id="throughline" class="throughline" data-chapter="throughline" aria-labelledby="throughline-title" data-throughline data-view="throughline" data-active-stage="acomys">
+  <div class="container">
+    <header class="throughline__head">
+      <div class="throughline__head-copy">
+        <p class="folio-index">01 / The path between projects</p>
+        <h2 id="throughline-title">Research throughline</h2>
+        <p>These projects trace how my work moved from tissue-level comparison toward portable measurements and longitudinal treatment-response analysis.</p>
+      </div>
+      <figure class="throughline__portrait">
+        <div class="throughline__frame">
+          <Image
+            src={portrait}
+            alt="Portrait of Yansheng Luo on the University of Florida campus."
+            widths={[300, 460, 600, 760]}
+            sizes="(min-width: 60rem) 288px, (min-width: 30rem) 240px, 62vw"
+          />
+        </div>
+        <figcaption><i aria-hidden="true"></i>University of Florida</figcaption>
+      </figure>
+      <div class="throughline__switch" role="group" aria-label="Research throughline view">
+        <button type="button" data-view-button="throughline" aria-pressed="true">Throughline</button>
+        <button type="button" data-view-button="chronology" aria-pressed="false">Chronology</button>
+      </div>
+    </header>
+
+    <div class="throughline__journey" data-throughline-view>
+      <div class="throughline__map">
+        <p class="throughline__map-label">Choose a stage</p>
+        <ol class="throughline__nodes" aria-label="Research stages">
+          {stages.map((stage, i) => (
+            <li class="throughline__node" data-node={stage.id}>
+              <button type="button" data-select-stage={stage.id} aria-current={i === 0 ? "step" : undefined}>
+                <span class="throughline__node-index">0{i + 1}</span>
+                <span>{stage.short}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+        <div class="throughline__branch">
+          <span>Parallel evidence branch</span>
+          <button type="button" data-select-stage="protein" aria-pressed="false">Protein design / candidate prioritization</button>
+          <a href="/research/protein-design/">Protein design project ↗</a>
+        </div>
+        <div class="throughline__media" aria-live="polite">
+          <div data-stage-media="acomys">
+            <Image src={drg} alt="Fluorescence image of a dorsal root ganglion explant in culture, with neurites extending outward from the central ganglion." widths={[400, 640, 800]} sizes="(min-width: 1200px) 440px, 90vw" />
+            <p>Approved DRG explant microscopy / experimental foundation</p>
+          </div>
+          <div data-stage-media="question" hidden><strong>Which observed differences are reproducible enough to interpret?</strong><p>The evidence question connects these projects.</p></div>
+          <div data-stage-media="imrs" hidden><strong>Anchor contrasts → fixed gene set and weights → independent transfer</strong><p>One score definition; no retraining for each validation dataset.</p></div>
+          <div data-stage-media="pdac" hidden><strong>Candidate clonal pattern</strong><p>Recurrence · abundance · effect size · treatment specificity · trajectory pattern · robustness</p></div>
+          <div data-stage-media="direction" hidden><strong>Longitudinal response & resistance</strong><p>Clonal · molecular · immune · tissue state</p></div>
+          <div data-stage-media="protein" hidden><strong>Public 2025 decision funnel</strong><p>More than 500 candidates → 10 prioritised → 3 selected for wet-lab testing.</p></div>
+        </div>
+        <p class="throughline__caption">Intellectual throughline across projects; not a quantitative data visualization.</p>
+      </div>
+      <div class="throughline__story">
+        {stages.map((stage, i) => (
+          <article class="throughline__stage" id={"throughline-" + stage.id} data-stage={stage.id} aria-labelledby={"throughline-title-" + stage.id}>
+            <button type="button" class="throughline__mobile-button" data-select-stage={stage.id} aria-expanded={i === 0 ? "true" : "false"} aria-controls={"throughline-content-" + stage.id}>
+              <span>0{i + 1} / {stage.short}</span><span aria-hidden="true">+</span>
+            </button>
+            <div class="throughline__stage-content" id={"throughline-content-" + stage.id}>
+              <p class="throughline__eyebrow">0{i + 1} / {stage.eyebrow}</p>
+              <h3 id={"throughline-title-" + stage.id}>{stage.title}</h3>
+              <p>{stage.description}</p>
+              {"href" in stage && <a href={stage.href}>{stage.link} ↗</a>}
+            </div>
+          </article>
+        ))}
+        <div class="throughline__tablet-controls" aria-label="Research stage navigation">
+          <button type="button" data-stage-prev>← Previous</button>
+          <span data-stage-status aria-live="polite">1 of 5</span>
+          <button type="button" data-stage-next>Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="throughline__chronology" data-chronology-view>
+      <p class="throughline__chronology-intro">These experiences overlap. The bars describe documented roles and periods, not a sequence of completed projects.</p>
+      <div class="throughline__years" aria-hidden="true"><span>2023</span><span>2024</span><span>2025</span><span>2026</span><span>2027</span></div>
+      <div class="throughline__timeline">
+        {chronology.map((item) => (
+          <details class="throughline__time-row" style={"--start:" + (item.start - 2023) + ";--span:" + (item.end - item.start + 1)}>
+            <summary>
+              <span class="throughline__time-name">{item.name}</span>
+              <span class="throughline__time-bar" aria-hidden="true"></span>
+              <span class="throughline__time-date">{item.time}</span>
+            </summary>
+            <div class="throughline__time-detail"><p>{item.role}</p>{"href" in item && <a href={item.href}>Open project ↗</a>}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+<script src="../scripts/research-throughline.ts"></script>
+

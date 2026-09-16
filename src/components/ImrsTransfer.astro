@@ -1,0 +1,61 @@
+---
+interface Props {
+  id: string;
+  /** Show the collapsible scope limit. Off where the page prose already states it. */
+  scope?: boolean;
+}
+const { id, scope = true } = Astro.props;
+// Symbolic tokens only: g = a gene in the score definition, w = its fixed weight.
+// No gene names, coefficients, or dataset identifiers are represented.
+const subscripts = ["₁", "₂", "₃", "₄", "₅"];
+const tokens = subscripts.map((n) => "g" + n + " · w" + n);
+const stages = [
+  { key: "anchor", label: "Anchor contrasts", text: "Treatment-versus-control contrasts from anchor datasets define the evidence used to build the score." },
+  { key: "selection", label: "Heterogeneity-aware selection", text: "Meta-analysis weighting, heterogeneity filtering, and power-aware selection determine which genes enter the score." },
+  { key: "freeze", label: "Freeze the definition", text: "The selected gene set and weights are fixed before independent validation." },
+  { key: "transfer", label: "Transfer without retraining", text: "New datasets are scored with the same definition so transferability can be evaluated rather than hidden by refitting." },
+];
+import "../styles/imrs-transfer.css";
+---
+<div class="transfer" id={id} data-imrs-transfer data-active="freeze">
+  <p class="transfer__eyebrow">Fixed-definition transfer / method logic</p>
+  <div class="transfer__stages" role="group" aria-label="IMRS method stages">
+    {stages.map((stage, i) => (
+      <button type="button" data-transfer-stage={stage.key} aria-pressed={stage.key === "freeze" ? "true" : "false"}>
+        <span>0{i + 1}</span>{stage.label}
+      </button>
+    ))}
+  </div>
+  <div class="transfer__viz" aria-hidden="true">
+    <p class="transfer__viz-label"><span>Conceptual score definition</span><span>same weights after freeze</span></p>
+    <div class="transfer__viz-canvas">
+      <div class="transfer__viz-sets transfer__viz-sets--anchor">
+        <span>Anchor contrast A</span><span>Anchor contrast B</span><span>Anchor contrast C</span>
+      </div>
+      <span class="transfer__viz-arrow transfer__viz-arrow--in">→</span>
+      <div class="transfer__viz-definition">
+        <p class="transfer__viz-heading"><span>Score definition</span><span class="transfer__viz-lock">▣ fixed</span></p>
+        <div class="transfer__viz-tokens">{tokens.map((token) => <span>{token}</span>)}</div>
+      </div>
+      <span class="transfer__viz-arrow transfer__viz-arrow--out">→</span>
+      <div class="transfer__viz-sets transfer__viz-sets--target">
+        <span>Independent D</span><span>Independent E</span><span>Independent F</span>
+        <strong class="transfer__viz-norefit">No refitting</strong>
+      </div>
+    </div>
+  </div>
+  <div class="transfer__weight-track" aria-hidden="true"><span class="transfer__weight-token">Fixed weight set</span></div>
+  <div class="transfer__panel" id={id + "-panel"} aria-live="polite">
+    <strong data-transfer-title>Freeze the definition</strong>
+    <p data-transfer-description>The selected gene set and weights are fixed before independent validation.</p>
+  </div>
+  <div class="transfer__diagnostics">
+    <p>Transfer diagnostics</p>
+    <span>Permutation</span><span>Leave-one-anchor-out</span><span>Sensitivity</span><span>Contribution audit</span><span>Cross-species transfer</span>
+  </div>
+  <p class="transfer__diagnostics-note">These checks ask whether the fixed score remains stable when anchors, genes, thresholds, or species change.</p>
+  {scope && <details class="transfer__scope"><summary>Scope limit</summary><p>IMRS is a frozen bulk RNA-seq response framework. It is not a causal pathway model and not a clinical safety/reactogenicity predictor.</p></details>}
+  <dl class="transfer__fallback">{stages.map((stage) => <div><dt>{stage.label}</dt><dd>{stage.text}</dd></div>)}</dl>
+</div>
+<script src="../scripts/imrs-transfer.ts"></script>
+

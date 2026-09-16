@@ -1,0 +1,317 @@
+/* Interaction layer.
+   Motion is restrained: opacity and transform only, one easing, and every
+   effect is removed under prefers-reduced-motion. Nothing here hides content
+   without JavaScript: reveal classes are added by scripts/interactions.ts. */
+
+/* ---------- Route transitions (native cross-document View Transitions) ---------- */
+
+@view-transition {
+  navigation: auto;
+}
+
+@keyframes route-old {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes route-new {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+::view-transition-old(root) {
+  animation: var(--motion-page) var(--motion-ease) both route-old;
+}
+
+::view-transition-new(root) {
+  animation: var(--motion-page) var(--motion-ease) both route-new;
+}
+
+/* The header stays visually stable while the page content changes. */
+.site-header {
+  view-transition-name: site-header;
+}
+
+::view-transition-old(site-header),
+::view-transition-new(site-header) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Fallback for browsers without View Transitions: a short entrance on the
+   incoming page only. The homepage hero is excluded so its load is untouched. */
+@supports not (view-transition-name: none) {
+  @keyframes route-enter {
+    from {
+      opacity: 0.01;
+      transform: translateY(8px);
+    }
+  }
+
+  #main > :not(.hero, .rail) {
+    animation: route-enter var(--motion-page) var(--motion-ease) both;
+  }
+}
+
+/* ---------- Section reveal ---------- */
+
+[data-js] .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--motion-reveal) var(--motion-ease),
+    transform var(--motion-reveal) var(--motion-ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-js] .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Project headings draw a short accent rule as they arrive. */
+.project__body h2.heading-rule::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 1px;
+  margin-top: 0.65rem;
+  background: var(--project-accent, var(--accent));
+  transition: width 550ms 120ms var(--motion-ease);
+}
+
+.project__body h2.heading-rule.is-visible::after {
+  width: min(100%, 5.5rem);
+}
+
+/* ---------- Tactile feedback on existing components ---------- */
+
+.feature,
+.micro-stage,
+.protein-card,
+.wi,
+.about__block,
+.about__outside,
+.cv__viewer,
+.regeneration-gallery figure {
+  transition:
+    transform var(--motion-ui) var(--motion-ease),
+    box-shadow var(--motion-ui) var(--motion-ease),
+    background-color var(--motion-ui) var(--motion-ease),
+    border-color var(--motion-ui) var(--motion-ease);
+}
+
+.home-about__figure img,
+.regeneration-gallery img,
+.micro-stage img,
+.output-preview__panel img,
+.throughline__portrait img,
+.prose a[data-lightbox-trigger] img {
+  transition:
+    transform 450ms var(--motion-ease),
+    filter var(--motion-ui) var(--motion-ease);
+}
+
+.regeneration-gallery a,
+.prose a[data-lightbox-trigger] {
+  overflow: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feature:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 32px 70px rgba(17, 42, 67, 0.14);
+  }
+
+  .micro-stage:hover,
+  .protein-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .wi:hover {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 4%, transparent), transparent 76%);
+  }
+
+  .about__block:hover,
+  .about__outside:hover,
+  .regeneration-gallery figure:hover {
+    transform: translateY(-2px);
+  }
+
+  .home-about__figure:hover img,
+  .micro-stage:hover img,
+  .output-preview__panel:hover img,
+  .throughline__portrait:hover img {
+    transform: scale(1.018);
+  }
+
+  /* Lightbox images: slightly stronger, never enough to crop scientific detail. */
+  .regeneration-gallery a[data-lightbox-trigger]:hover img,
+  .prose a[data-lightbox-trigger]:hover img {
+    transform: scale(1.025);
+    filter: saturate(1.03) contrast(1.01);
+  }
+
+  .regeneration-gallery figure:hover figcaption,
+  .prose figure:hover figcaption {
+    color: var(--text);
+  }
+
+  /* Interactive scientific diagrams: clear affordance on hover. */
+  .evidence__node:hover,
+  .evidence__proteomic:hover,
+  .funnel__stages button:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.regeneration-gallery figcaption,
+.prose figcaption {
+  transition: color var(--motion-micro) var(--motion-ease);
+}
+
+.evidence__node:focus-visible,
+.evidence__proteomic:focus-visible,
+.evidence__center:focus-visible,
+.transfer__stages button:focus-visible,
+.funnel__stages button:focus-visible,
+.throughline__nodes button:focus-visible,
+.throughline__branch button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  outline-offset: 3px;
+}
+
+/* Link arrows move only on intentional hover or focus. */
+.folio-link span,
+.home-about__links a span,
+.output__go {
+  transition:
+    transform var(--motion-micro) var(--motion-ease),
+    color var(--motion-micro) var(--motion-ease);
+}
+
+.folio-link:focus-visible span,
+.home-about__links a:hover span,
+.home-about__links a:focus-visible span,
+.output:hover .output__go,
+.output:focus-within .output__go {
+  transform: translate(2px, -2px);
+}
+
+/* ---------- Pointer-responsive cards (added by scripts/interactions.ts) ---------- */
+
+.pointer-card {
+  --spot-x: 50%;
+  --spot-y: 50%;
+  --spot-rgb: 22, 78, 115;
+  position: relative;
+}
+
+.pointer-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  border-radius: inherit;
+  background: radial-gradient(
+    340px circle at var(--spot-x) var(--spot-y),
+    rgba(var(--spot-rgb), 0.06),
+    transparent 65%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-ui) var(--motion-ease);
+}
+
+.pointer-card:hover::after {
+  opacity: 1;
+}
+
+/* ---------- Work section jump links report the section in view ---------- */
+
+.work__jump a {
+  position: relative;
+  transition:
+    color var(--motion-micro) var(--motion-ease),
+    background-color var(--motion-micro) var(--motion-ease),
+    border-color var(--motion-micro) var(--motion-ease);
+}
+
+.work__jump a[aria-current="true"] {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.work__jump a[aria-current="true"]::after {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* Heading anchors land below the sticky header. */
+.project__body h2[id],
+.work__section[id],
+.about h2[id] {
+  scroll-margin-top: calc(var(--header-h) + 1.25rem);
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+
+  #main > * {
+    animation: none !important;
+  }
+
+  [data-js] .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .project__body h2.heading-rule::after {
+    width: min(100%, 5.5rem);
+    transition: none;
+  }
+
+  .feature,
+  .micro-stage,
+  .protein-card,
+  .output,
+  .wi,
+  .about__block,
+  .about__outside,
+  .regeneration-gallery figure,
+  .home-about__figure img,
+  .regeneration-gallery img,
+  .micro-stage img,
+  .output-preview__panel img,
+  .throughline__portrait img,
+  .prose a[data-lightbox-trigger] img,
+  .evidence__node,
+  .evidence__proteomic,
+  .transfer__stages button,
+  .funnel__stages button,
+  .folio-link span,
+  .home-about__links a span,
+  .output__go {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .pointer-card::after {
+    display: none;
+  }
+}

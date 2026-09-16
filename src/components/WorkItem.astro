@@ -1,0 +1,82 @@
+---
+import type { WorkEntry } from "../data/work";
+import { emphasize } from "../utils/format";
+
+interface Props {
+  entry: WorkEntry;
+  /** Desktop hover/focus preview data (see work-preview.ts); omitted for items without a project. */
+  preview?: Record<string, string>;
+}
+
+const { entry, preview } = Astro.props;
+const previewAttributes = preview
+  ? Object.fromEntries(Object.entries(preview).map(([key, value]) => [`data-preview-${key}`, value]))
+  : {};
+---
+
+<li class="wi" {...previewAttributes}>
+  <p class="wi__when meta">{entry.when}</p>
+  <div class="wi__body">
+    <h3 class="wi__title" set:html={emphasize(entry.title)} />
+    {entry.authors && <p class="wi__authors meta">{entry.authors}</p>}
+    {entry.venue && <p class="wi__venue meta" set:html={emphasize(entry.venue)} />}
+    {entry.detail && <p class="wi__detail">{entry.detail}</p>}
+    {entry.project && (
+      <p class="wi__link">
+        <a href={entry.project}>Project page</a>
+      </p>
+    )}
+  </div>
+</li>
+
+<style>
+  .wi {
+    display: grid;
+    gap: 0.3rem 1.75rem;
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (min-width: 40rem) {
+    .wi {
+      grid-template-columns: 7rem minmax(0, 1fr);
+    }
+  }
+
+  .wi__when {
+    padding-top: 0.2rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .wi__body {
+    max-width: 62ch;
+  }
+
+  .wi__title {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .wi__authors,
+  .wi__venue {
+    margin-top: 0.3rem;
+  }
+
+  .wi__detail {
+    margin-top: 0.4rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .wi__link {
+    margin-top: 0.45rem;
+    font-size: 0.9rem;
+  }
+
+  .wi__link a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+</style>

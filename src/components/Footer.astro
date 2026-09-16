@@ -1,0 +1,139 @@
+---
+import SocialLinks from "./SocialLinks.astro";
+import { site } from "../data/profile";
+
+const nav = [
+  { label: "Research", href: "/#throughline" },
+  { label: "Work", href: "/work/" },
+  { label: "About", href: "/about/" },
+  { label: "CV", href: "/cv/" },
+];
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__id">
+      <p class="site-footer__name">Yansheng Luo</p>
+      <p class="site-footer__tag">
+        Undergraduate researcher at the University of Florida working on treatment response,
+        clonal evolution, and interpretable measurements of biological state.
+      </p>
+    </div>
+
+    <nav class="site-footer__nav" aria-labelledby="footer-site">
+      <p class="footer-label" id="footer-site">Site</p>
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="site-footer__contact">
+      <p class="footer-label" id="footer-contact">Contact</p>
+      <div aria-labelledby="footer-contact" role="group">
+        <SocialLinks />
+      </div>
+    </div>
+  </div>
+
+  <div class="container site-footer__base">
+    <p>© {site.year} Yansheng Luo</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    background: var(--bg-footer);
+    color: #cfdae2;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .site-footer__name {
+    color: #fff;
+  }
+
+  .site-footer .footer-label {
+    color: #8197a6;
+  }
+
+  .site-footer__tag,
+  .site-footer__base {
+    color: #8197a6;
+  }
+
+  .site-footer__nav a,
+  .site-footer :global(.social a) {
+    color: #b9c9d2;
+  }
+
+  .site-footer__nav a:hover,
+  .site-footer :global(.social a:hover .social__label) {
+    color: #fff;
+  }
+
+  .site-footer :global(.social__handle) {
+    color: #7e94a3;
+  }
+
+  .site-footer :global(.social--list li + li),
+  .site-footer__base p {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: 2.5rem;
+    padding-block: clamp(3rem, 7vw, 5rem) clamp(2rem, 5vw, 3rem);
+  }
+
+  @media (min-width: 48rem) {
+    .site-footer__grid {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr) minmax(0, 1.2fr);
+      gap: clamp(2rem, 5vw, 4rem);
+    }
+  }
+
+  .site-footer__name {
+    font-size: 1.6rem;
+    line-height: 1.2;
+  }
+
+  .site-footer__tag {
+    max-width: 36ch;
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .site-footer .footer-label {
+    margin-bottom: 0.5rem;
+  }
+
+  .site-footer__nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    text-decoration: none;
+  }
+
+  .site-footer__nav a:hover {
+    text-decoration: underline;
+  }
+
+  .site-footer__base {
+    padding-block: 1.25rem 2rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .site-footer__base p {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+</style>

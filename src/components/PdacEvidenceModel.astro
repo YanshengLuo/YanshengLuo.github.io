@@ -1,0 +1,40 @@
+---
+interface Props { id: string; }
+const { id } = Astro.props;
+const nodes = [
+  { key: "recurrence", label: "Recurrence", explanation: "Tests whether the candidate pattern appears repeatedly rather than as a one-off observation." },
+  { key: "abundance", label: "Abundance", explanation: "Distinguishes repeatedly observed patterns from isolated low-count events." },
+  { key: "effect", label: "Effect size", explanation: "Captures the magnitude of treatment-associated change rather than relying on presence alone." },
+  { key: "specificity", label: "Treatment specificity", explanation: "Tests whether a pattern is associated with one treatment route rather than appearing broadly." },
+  { key: "trajectory", label: "Trajectory pattern", explanation: "Uses treatment history and sequence to interpret how a lineage behaves across conditions." },
+  { key: "robustness", label: "Robustness", explanation: "Checks whether prioritization survives reasonable analytical choices and sensitivity tests." },
+  { key: "proteomic", label: "Proteomic context", explanation: "Connects lineage-level analysis with treatment-sensitive and resistant human PDAC proteomic states." },
+];
+import "../styles/evidence-model.css";
+---
+<div class="evidence" id={id} data-evidence-model data-active="center">
+  <div class="evidence__map" role="group" aria-label="Forms of evidence used to prioritize a candidate clonal pattern">
+    <button type="button" class="evidence__center" data-evidence-reset aria-controls={id + "-callout"}>
+      <span>Candidate clonal pattern</span><small>Consider evidence together</small><span class="visually-hidden"> — show all evidence</span>
+    </button>
+    {nodes.slice(0, 6).map((node) => (
+      <button type="button" class="evidence__node" data-evidence-node={node.key} aria-pressed="false">
+        {node.label}
+      </button>
+    ))}
+  </div>
+  <button type="button" class="evidence__proteomic" data-evidence-node="proteomic" aria-pressed="false">
+    <span>Proteomic context</span><strong>6,851 unique proteins</strong>
+  </button>
+  <div class="evidence__callout" id={id + "-callout"} aria-live="polite">
+    <p class="evidence__callout-label">Analysis logic / conceptual model</p>
+    <p data-evidence-description>No single statistic was sufficient. The analysis combined several independent forms of evidence before a pattern was prioritized.</p>
+    <p class="evidence__tags" data-evidence-tags aria-hidden="true"></p>
+  </div>
+  <dl class="evidence__fallback">
+    {nodes.map((node) => <div><dt>{node.label}</dt><dd>{node.explanation}</dd></div>)}
+  </dl>
+  <p class="evidence__caption">Analysis logic / conceptual model. No clone-level study results are displayed.</p>
+</div>
+<script src="../scripts/evidence-model.ts"></script>
+

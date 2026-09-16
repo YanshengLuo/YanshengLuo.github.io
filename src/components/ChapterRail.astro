@@ -1,0 +1,203 @@
+---
+// Fixed right-hand page navigator: real scroll progress plus section links.
+// Desktop only; below 1200px the in-page headings carry navigation instead.
+// Each chapter carries the accent of its research section, so the rail shifts
+// color subtly as the reader moves from PDAC to Acomys to protein design.
+const chapters = [
+  { id: "home", label: "Home", accent: "#164e73" },
+  { id: "throughline", label: "Throughline", accent: "#164e73" },
+  { id: "current", label: "Current", accent: "#7e3949" },
+  { id: "acomys", label: "Acomys", accent: "#3d6959" },
+  { id: "protein", label: "Protein", accent: "#5d4f8b" },
+  { id: "outputs", label: "Outputs", accent: "#164e73" },
+  { id: "about", label: "About", accent: "#5ca9b9" },
+];
+---
+
+<nav class="rail" aria-label="Page sections" data-chapter-rail>
+  <span class="rail__track" aria-hidden="true"><span class="rail__progress" data-rail-progress></span></span>
+  <ul>
+    {
+      chapters.map((chapter) => (
+        <li>
+          <a href={`#${chapter.id}`} data-rail-link={chapter.id} data-accent={chapter.accent}>
+            <span class="rail__label">{chapter.label}</span>
+            <span class="rail__node" aria-hidden="true" />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<script>
+  import "../scripts/chapter-rail";
+</script>
+
+<style>
+  .rail {
+    display: none;
+  }
+
+  @media (min-width: 75rem) {
+    .rail {
+      --rail-accent: #164e73;
+      position: fixed;
+      right: clamp(0.75rem, 1.4vw, 1.5rem);
+      top: 50%;
+      z-index: 40;
+      display: block;
+      transform: translateY(-50%);
+      filter: drop-shadow(0 8px 20px rgba(25, 47, 66, 0.08));
+    }
+
+    .rail__track {
+      position: absolute;
+      right: 5px;
+      top: 6px;
+      bottom: 6px;
+      width: 1px;
+      background: #c8d5e0;
+      transition: background-color var(--motion-ui) var(--motion-ease);
+    }
+
+    .rail__progress {
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: var(--rail-progress, 0%);
+      background: var(--rail-accent);
+      transition: background-color var(--motion-ui) var(--motion-ease);
+    }
+
+    .rail ul {
+      position: relative;
+      display: grid;
+      gap: 0.75rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .rail a {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.55rem;
+      min-height: 22px;
+      color: #7b8894;
+      font-size: 0.62rem;
+      font-weight: 650;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition:
+        color var(--motion-micro) var(--motion-ease),
+        transform var(--motion-micro) var(--motion-ease);
+    }
+
+    .rail a:hover {
+      transform: translateX(-2px);
+    }
+
+    .rail__label {
+      padding: 0.12rem 0.32rem;
+      border-radius: 5px;
+      background: rgba(249, 251, 252, 0.82);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      transform: translateX(4px);
+      transition:
+        opacity var(--motion-ui) var(--motion-ease),
+        transform var(--motion-ui) var(--motion-ease),
+        background-color var(--motion-ui) var(--motion-ease);
+    }
+
+    .rail:hover .rail__label,
+    .rail a:focus-visible .rail__label,
+    .rail a[aria-current] .rail__label {
+      opacity: 1;
+      transform: none;
+    }
+
+    .rail__node {
+      width: 11px;
+      height: 11px;
+      border: 2px solid #b9c7d3;
+      border-radius: 50%;
+      background: #f9fbfc;
+      transition:
+        border-color var(--motion-ui) var(--motion-ease),
+        background-color var(--motion-ui) var(--motion-ease),
+        box-shadow var(--motion-ui) var(--motion-ease),
+        transform var(--motion-ui) var(--motion-ease);
+    }
+
+    .rail a:hover .rail__node {
+      border-color: var(--rail-accent);
+    }
+
+    .rail a[aria-current] {
+      color: var(--rail-accent);
+      font-weight: 800;
+    }
+
+    .rail a[aria-current] .rail__node {
+      border-color: var(--rail-accent);
+      background: var(--rail-accent);
+      box-shadow: 0 0 0 5px color-mix(in srgb, var(--rail-accent) 13%, transparent);
+      transform: scale(1.12);
+    }
+
+    /* Over dark sections the rail inverts; accents are lightened for contrast. */
+    .rail[data-tone="dark"] .rail__track {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .rail[data-tone="dark"] .rail__label {
+      background: transparent;
+    }
+
+    .rail[data-tone="dark"] a {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .rail[data-tone="dark"] .rail__node {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .rail[data-tone="dark"] a:hover {
+      color: #fff;
+    }
+
+    .rail[data-tone="dark"] .rail__progress {
+      background: color-mix(in srgb, var(--rail-accent) 45%, white);
+    }
+
+    .rail[data-tone="dark"] a[aria-current] {
+      color: #fff;
+    }
+
+    .rail[data-tone="dark"] a[aria-current] .rail__node {
+      border-color: color-mix(in srgb, var(--rail-accent) 45%, white);
+      background: color-mix(in srgb, var(--rail-accent) 45%, white);
+      box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.14);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rail a,
+    .rail__label,
+    .rail__node,
+    .rail__progress {
+      transition: none;
+    }
+
+    .rail a:hover,
+    .rail a[aria-current] .rail__node {
+      transform: none;
+    }
+  }
+</style>

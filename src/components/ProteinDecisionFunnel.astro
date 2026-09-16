@@ -1,0 +1,28 @@
+---
+interface Props { id: string; }
+const { id } = Astro.props;
+const stages = [
+  { key: "generated", count: ">500", label: "Design candidates", text: "The public 2025 osteocalcin binder workflow produced more candidates than the team could test experimentally." },
+  { key: "prioritized", count: "10", label: "Prioritized", text: "A HADDOCK3 docking workflow and other computational evidence narrowed more than 500 candidates to 10 for wet-lab validation." },
+  { key: "selected", count: "3", label: "Wet-lab selected", text: "The team selected three top-ranked sequences for cloning, expression and purification, and biolayer interferometry." },
+];
+import "../styles/protein-funnel.css";
+---
+<div class="funnel" id={id} data-protein-funnel data-active="generated">
+  <p class="funnel__eyebrow">Public 2025 osteocalcin case / decision funnel</p>
+  <div class="funnel__stages" role="group" aria-label="Public 2025 protein design prioritization stages">
+    {stages.map((stage, i) => (
+      <button type="button" data-funnel-stage={stage.key} aria-pressed={i === 0 ? "true" : "false"}>
+        <strong>{stage.count}</strong><span>{stage.label}</span>
+      </button>
+    ))}
+  </div>
+  <div class="funnel__panel" id={id + "-panel"} aria-live="polite">
+    <strong data-funnel-title>Design candidates</strong>
+    <p data-funnel-description>The public 2025 osteocalcin binder workflow produced more candidates than the team could test experimentally.</p>
+  </div>
+  <dl class="funnel__fallback">{stages.map((stage) => <div><dt>{stage.count} / {stage.label}</dt><dd>{stage.text}</dd></div>)}</dl>
+  <p class="funnel__scope">Computational rank set testing priority. It was not a measurement of binding affinity or a prediction of experimental success.</p>
+</div>
+<script src="../scripts/protein-funnel.ts"></script>
+

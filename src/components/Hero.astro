@@ -1,0 +1,362 @@
+---
+import { Image } from "astro:assets";
+import banner from "../assets/hero/poster-banner.webp";
+import { hero } from "../data/profile";
+import { links } from "../data/social";
+
+const pills = ["Translational oncology", "Biology & Chemistry", "Bioinformatics & Statistics", "Expected May 2027"];
+---
+
+<section class="hero" id="home" data-chapter="home" aria-labelledby="hero-name">
+  <div class="hero__media">
+    <Image
+      src={banner}
+      alt="Yansheng Luo presenting his research at a poster session."
+      widths={[960, 1440, 1920, 2400]}
+      sizes="100vw"
+      priority
+    />
+    <div class="hero__scrim" aria-hidden="true"></div>
+  </div>
+
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="hero__kicker">{hero.eyebrow}</p>
+      <h1 class="hero__name" id="hero-name">Yansheng<br />Luo</h1>
+      <p class="hero__question">{hero.question}</p>
+      <p class="hero__desc">{hero.supporting}</p>
+      <ul class="hero__pills">
+        {
+          pills.map((pill, i) => (
+            <li>
+              {i === 0 && <i class="hero__dot" aria-hidden="true" />}
+              {pill}
+            </li>
+          ))
+        }
+      </ul>
+      <div class="hero__actions">
+        <a class="hero__btn hero__btn--solid" href="#throughline">Explore research <span aria-hidden="true">→</span></a>
+        <a class="hero__btn" href="/cv/">View CV</a>
+        <a class="hero__btn" href={links.email}>Email</a>
+      </div>
+    </div>
+
+    <aside class="hero__notes">
+      <p><strong>Currently</strong>Building toward translational oncology and precision medicine.</p>
+      <p><strong>Research mode</strong>Question, measurement, robustness, then biological interpretation.</p>
+    </aside>
+  </div>
+
+  <p class="hero__fieldnote" aria-hidden="true">
+    <span>Field note 00</span><strong>At the poster</strong><span>University of Florida</span>
+  </p>
+
+  <div class="hero__curve">
+    <svg viewBox="0 0 1440 126" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path d="M0 58 C210 110 360 14 572 56 S930 112 1100 50 S1300 28 1440 76 L1440 126 L0 126Z" fill="#f9fbfd"></path>
+      <path d="M0 58 C210 110 360 14 572 56 S930 112 1100 50 S1300 28 1440 76" fill="none" stroke="#8eb3d1" stroke-width="1.6"></path>
+    </svg>
+    <a class="hero__scroll" href="#throughline">
+      Scroll through the field notes<span class="hero__orb" aria-hidden="true">↓</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: var(--hero-min);
+    display: grid;
+    align-items: center;
+    padding-block: calc(var(--header-h) + clamp(2rem, 5vw, 4rem)) clamp(8rem, 12vw, 11rem);
+    background: #101c2c;
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 62% 40%;
+  }
+
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(8, 19, 34, 0.93) 0%,
+        rgba(8, 19, 34, 0.88) 36%,
+        rgba(8, 19, 34, 0.66) 52%,
+        rgba(8, 19, 34, 0.3) 70%,
+        rgba(8, 19, 34, 0.18) 100%
+      ),
+      linear-gradient(180deg, rgba(8, 17, 29, 0.28) 0%, rgba(8, 17, 29, 0.1) 45%, rgba(8, 17, 29, 0.5) 100%);
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+
+  .hero__copy {
+    max-width: 42rem;
+    min-width: 0;
+  }
+
+  .hero__kicker {
+    margin: 0 0 1rem;
+    color: #9ad7ff;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .hero__name {
+    color: #fff;
+    font-size: clamp(3.4rem, 8vw, 7rem);
+    font-weight: 700;
+    line-height: 0.88;
+    letter-spacing: -0.055em;
+    text-shadow: 0 12px 46px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero__question {
+    max-width: 22ch;
+    margin: clamp(1.25rem, 3vw, 1.75rem) 0 0;
+    font-size: clamp(1.35rem, 2.3vw, 2.05rem);
+    font-weight: 550;
+    line-height: 1.22;
+    letter-spacing: -0.03em;
+  }
+
+  .hero__desc {
+    max-width: 58ch;
+    margin: 1.1rem 0 0;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .hero__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hero__pills li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  .hero__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #8ed7ff;
+    box-shadow: 0 0 0 5px rgba(142, 215, 255, 0.16);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.9rem;
+  }
+
+  .hero__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 46px;
+    padding: 0.7rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 999px;
+    background: rgba(17, 31, 49, 0.28);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition: background-color var(--dur-ui), color var(--dur-ui), border-color var(--dur-ui);
+  }
+
+  .hero__btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .hero__btn--solid {
+    background: #fff;
+    border-color: #fff;
+    color: #10203a;
+  }
+
+  .hero__btn--solid:hover {
+    background: #dceaf6;
+    color: #10203a;
+  }
+
+  .hero__btn span {
+    transition: transform var(--dur-ui) var(--ease-out);
+  }
+
+  .hero__btn:hover span {
+    transform: translateX(3px);
+  }
+
+  .hero__notes {
+    display: none;
+  }
+
+  .hero__fieldnote {
+    position: absolute;
+    right: clamp(1.5rem, 4vw, 3.5rem);
+    top: 50%;
+    z-index: 2;
+    display: none;
+    margin: 0;
+    text-align: right;
+    transform: translateY(-50%);
+  }
+
+  .hero__fieldnote span,
+  .hero__fieldnote strong {
+    display: block;
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hero__fieldnote strong {
+    margin: 0.2rem 0;
+    color: #fff;
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    text-transform: none;
+  }
+
+  .hero__curve {
+    position: absolute;
+    inset: auto 0 -1px;
+    z-index: 3;
+    height: clamp(5rem, 9vw, 7.9rem);
+  }
+
+  .hero__curve svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .hero__scroll {
+    position: absolute;
+    right: clamp(1rem, 5vw, 4.4rem);
+    bottom: clamp(0.75rem, 2vw, 2.25rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 44px;
+    color: var(--ink);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .hero__orb {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #8aa2ba;
+    border-radius: 50%;
+    background: #fff;
+    font-size: 0.85rem;
+    transition: border-color var(--dur-ui), color var(--dur-ui);
+  }
+
+  .hero__scroll:hover .hero__orb {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  @media (min-width: 60rem) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+    }
+
+    .hero__notes {
+      display: grid;
+      gap: 0.9rem;
+      align-self: end;
+      justify-self: end;
+      max-width: 17rem;
+    }
+
+    .hero__notes p {
+      margin: 0;
+      padding-left: 1rem;
+      border-left: 1px solid rgba(255, 255, 255, 0.45);
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+
+    .hero__notes strong {
+      display: block;
+      color: #fff;
+    }
+  }
+
+  @media (min-width: 90rem) {
+    /* Sits above the vertically centered chapter rail, clear of its labels. */
+    .hero__fieldnote {
+      top: 25%;
+      display: block;
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .hero__media img {
+      object-position: 68% 38%;
+    }
+
+    .hero__scrim {
+      background: linear-gradient(180deg, rgba(8, 18, 31, 0.66) 0%, rgba(8, 18, 31, 0.82) 50%, rgba(8, 18, 31, 0.93) 100%);
+    }
+
+    .hero__scroll {
+      font-size: 0.62rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__btn span,
+    .hero__orb {
+      transition: none;
+    }
+  }
+</style>

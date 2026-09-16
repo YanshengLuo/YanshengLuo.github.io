@@ -1,0 +1,60 @@
+.evidence { --evidence-accent: #7e3949; display: grid; gap: 1rem; min-width: 0; padding: clamp(1rem, 3vw, 2rem); background: #f7f0f2; border-top: 2px solid var(--evidence-accent); color: #283139; }
+.evidence__map { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(70px, auto)); gap: 1rem; align-items: center; min-width: 0; }
+.evidence__center { grid-area: 2 / 2; z-index: 1; display: grid; place-items: center; align-content: center; min-width: 0; min-height: 102px; padding: .8rem; border: 2px solid var(--evidence-accent); border-radius: 50%; background: #fff; color: inherit; font-size: .9rem; text-align: center; font-weight: 700; line-height: 1.2; cursor: pointer; transition: box-shadow var(--motion-ui) var(--motion-ease), transform var(--motion-ui) var(--motion-ease), background-color var(--motion-ui) var(--motion-ease); }
+.evidence__center:hover { background: #fdf8f9; }
+.evidence__center small { margin-top: .35rem; color: #6c6970; font-size: .65rem; font-weight: 500; }
+.evidence__node, .evidence__proteomic { min-width: 0; min-height: 54px; padding: .5rem; border: 1px solid #cdbdc2; background: #fff; color: #493c42; font-size: .78rem; font-weight: 650; line-height: 1.3; text-align: center; cursor: pointer; transition: opacity var(--motion-ui) var(--motion-ease), transform var(--motion-ui) var(--motion-ease), background-color var(--motion-ui) var(--motion-ease), border-color var(--motion-ui) var(--motion-ease), box-shadow var(--motion-ui) var(--motion-ease); }
+.evidence__node { position: relative; }
+.evidence__node::after { content: ""; position: absolute; z-index: 0; background: #c5aab4; transition: background-color var(--motion-ui) var(--motion-ease), opacity var(--motion-ui) var(--motion-ease); }
+.evidence__node:nth-child(2) { grid-area: 1 / 1; }
+.evidence__node:nth-child(3) { grid-area: 1 / 2; }
+.evidence__node:nth-child(4) { grid-area: 1 / 3; }
+.evidence__node:nth-child(5) { grid-area: 2 / 1; }
+.evidence__node:nth-child(6) { grid-area: 2 / 3; }
+.evidence__node:nth-child(7) { grid-area: 3 / 2; }
+.evidence__node:nth-child(3)::after { width: 2px; height: 1rem; bottom: -1rem; left: 50%; }
+.evidence__node:nth-child(7)::after { width: 2px; height: 1rem; top: -1rem; left: 50%; }
+.evidence__node:nth-child(5)::after { height: 2px; width: 1rem; right: -1rem; top: 50%; }
+.evidence__node:nth-child(6)::after { height: 2px; width: 1rem; left: -1rem; top: 50%; }
+.evidence__node:nth-child(2)::after, .evidence__node:nth-child(4)::after { height: 2px; width: 1.3rem; bottom: -.6rem; }
+.evidence__node:nth-child(2)::after { right: -.9rem; transform: rotate(45deg); }
+.evidence__node:nth-child(4)::after { left: -.9rem; transform: rotate(-45deg); }
+.evidence__node:hover, .evidence__node:focus-visible, .evidence__node[data-active], .evidence__node[aria-pressed="true"], .evidence__proteomic:hover, .evidence__proteomic:focus-visible, .evidence__proteomic[data-active], .evidence__proteomic[aria-pressed="true"] { border-color: var(--evidence-accent); background: #f3e3e8; color: #582333; }
+.evidence__node[data-active]::after, .evidence__node[aria-pressed="true"]::after, .evidence__node:hover::after, .evidence__node:focus-visible::after { background: var(--evidence-accent); }
+/* Focus state: one form of evidence is emphasized, the others recede, the candidate stays visible. */
+.evidence[data-enabled][data-focus="true"] .evidence__node:not([data-active]),
+.evidence[data-enabled][data-focus="true"] .evidence__proteomic:not([data-active]) { opacity: .42; }
+.evidence[data-enabled][data-focus="true"] .evidence__node:not([data-active])::after { opacity: .5; }
+.evidence[data-enabled] .evidence__node[data-active], .evidence[data-enabled] .evidence__proteomic[data-active] { opacity: 1; transform: translateY(-3px) scale(1.015); box-shadow: 0 10px 24px rgba(126, 57, 73, .13); }
+.evidence[data-enabled] .evidence__node[aria-pressed="true"] { box-shadow: 0 10px 24px rgba(126, 57, 73, .13), inset 0 0 0 1px var(--evidence-accent); }
+.evidence[data-enabled][data-focus="true"] .evidence__center { box-shadow: 0 0 0 7px color-mix(in srgb, var(--evidence-accent) 9%, transparent); transform: scale(1.02); }
+.evidence__tags { display: flex; flex-wrap: wrap; gap: .35rem; min-height: 24px; margin-top: .7rem; }
+.evidence__tags span { padding: .22rem .5rem; border: 1px solid color-mix(in srgb, var(--evidence-accent) 28%, white); border-radius: 999px; background: color-mix(in srgb, var(--evidence-accent) 5%, white); color: #68555d; font-size: .64rem; font-weight: 700; letter-spacing: .035em; text-transform: uppercase; animation: evidence-tag-in var(--motion-ui) var(--motion-ease) both; }
+@keyframes evidence-tag-in { from { opacity: 0; transform: translateY(4px); } }
+.evidence__proteomic { display: flex; align-items: center; justify-content: space-between; gap: .5rem; text-align: left; }
+.evidence__proteomic strong { font-size: .82rem; }
+.evidence__callout { min-height: 110px; padding: 1rem; border-left: 3px solid var(--evidence-accent); background: #fff; }
+.evidence__callout-label, .evidence__caption { color: #74676c; font-size: .69rem; letter-spacing: .045em; }
+.evidence__callout-label { font-weight: 700; text-transform: uppercase; }
+.evidence__callout [data-evidence-description] { margin-top: .4rem; font-size: .85rem; line-height: 1.4; }
+.evidence__fallback { display: grid; gap: .5rem; }
+.evidence__fallback > div { font-size: .76rem; }
+.evidence__fallback dt { font-weight: 700; }
+.evidence__fallback dd { margin: 0; }
+.evidence[data-enabled] .evidence__fallback { display: none; }
+.evidence:not([data-enabled]) .evidence__map, .evidence:not([data-enabled]) .evidence__proteomic, .evidence:not([data-enabled]) .evidence__tags { display: none; }
+@media (max-width: 719px) {
+  .evidence__map { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .evidence__center { flex-basis: 100%; min-height: 66px; border-radius: .25rem; }
+  .evidence[data-enabled][data-focus="true"] .evidence__center { transform: none; }
+  .evidence__node { flex: 1 1 calc(50% - .5rem); min-height: 44px; }
+  .evidence__node::after { display: none; }
+  .evidence__proteomic { flex-wrap: wrap; }
+  .evidence__callout { min-height: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .evidence__node, .evidence__proteomic, .evidence__node::after, .evidence__center { transition: none; }
+  .evidence[data-enabled] .evidence__node[data-active], .evidence[data-enabled] .evidence__proteomic[data-active], .evidence[data-enabled][data-focus="true"] .evidence__center { transform: none; }
+  .evidence__tags span { animation: none; }
+}
+
