@@ -1,0 +1,338 @@
+---
+// About page "Outside research": a small slideshow (Diving, Photography,
+// Outreach) with Previous/Next arrows, arrow keys, and touch swipe.
+// Without JavaScript every slide is shown in sequence.
+import { Image, getImage } from "astro:assets";
+import scuba from "../assets/profile/scuba.webp";
+import scienceBoba from "../assets/profile/science-boba.webp";
+import lizard from "../assets/photography/lizard-hollow.webp";
+import snake from "../assets/photography/snake-branch.webp";
+import { beyondResearch, outsideSlides } from "../data/profile";
+import { links } from "../data/social";
+
+const photos = [
+  {
+    src: lizard,
+    full: await getImage({ src: lizard, width: 1600, format: "webp" }),
+    alt: "A green lizard resting inside a dark hollow in a tree trunk, lit by a narrow shaft of light.",
+    ratio: lizard.width / lizard.height,
+  },
+  {
+    src: snake,
+    full: await getImage({ src: snake, width: 1800, format: "webp" }),
+    alt: "A green snake coiled along a bare branch against a black background, its head catching the light.",
+    ratio: snake.width / snake.height,
+  },
+];
+---
+
+<section class="outside" id="outside" aria-roledescription="carousel" aria-labelledby="outside-title" data-outside>
+  <div class="outside__bar">
+    <h2 class="outside__eyebrow" id="outside-title">Outside research</h2>
+    <div class="outside__controls" data-outside-controls hidden>
+      <p class="outside__count" aria-live="polite" data-outside-count>01 / 03 · Diving</p>
+      <button type="button" class="outside__arrow" data-outside-prev aria-label="Previous slide">
+        <span aria-hidden="true">←</span>
+      </button>
+      <button type="button" class="outside__arrow" data-outside-next aria-label="Next slide">
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="outside__track" data-outside-track>
+    <article class="outside__slide" role="group" aria-roledescription="slide" aria-label="1 of 3: Diving" data-outside-slide>
+      <div class="outside__copy">
+        <h3>Diving</h3>
+        <p>{beyondResearch}</p>
+        <p class="outside__link"><a href={links.fantasticSea}>FantasticSea ↗</a></p>
+      </div>
+      <figure class="outside__figure">
+        <Image src={scuba} alt="Yansheng Luo in scuba gear at the surface of a clear freshwater spring." widths={[640, 960, 1280]} sizes="(min-width: 60rem) 600px, 90vw" />
+        <figcaption>Under the surface / Outside research</figcaption>
+      </figure>
+    </article>
+
+    <article class="outside__slide" role="group" aria-roledescription="slide" aria-label="2 of 3: Photography" data-outside-slide data-layout="photos">
+      <div class="outside__copy">
+        <h3>Photography</h3>
+        <p>{outsideSlides.photography}</p>
+        <p class="outside__hint">Select a photograph to enlarge it.</p>
+      </div>
+      <div class="outside__photos">
+        <div class="outside__photo-row">
+        {
+          photos.map((photo) => (
+            <figure class="outside__photo" style={`--ratio: ${photo.ratio.toFixed(4)}`}>
+              <a
+                data-lightbox-trigger
+                href={photo.full.src}
+                data-full={photo.full.src}
+                data-width={photo.full.attributes.width}
+                data-height={photo.full.attributes.height}
+                data-alt={photo.alt}
+                data-caption="Photograph by Yansheng Luo."
+                aria-label="Enlarge photograph"
+              >
+                <Image src={photo.src} alt={photo.alt} widths={[400, 700, 1000]} sizes="(min-width: 60rem) 320px, 45vw" />
+              </a>
+            </figure>
+          ))
+        }
+        </div>
+        <p class="outside__credit">Photographs by Yansheng Luo</p>
+      </div>
+    </article>
+
+    <article class="outside__slide" role="group" aria-roledescription="slide" aria-label="3 of 3: Outreach" data-outside-slide>
+      <div class="outside__copy">
+        <h3>Science outreach</h3>
+        <p>{outsideSlides.outreach}</p>
+      </div>
+      <figure class="outside__figure">
+        <Image src={scienceBoba} alt="Yansheng Luo beside his Science Boba polymer chemistry outreach demonstration board." widths={[480, 720, 960]} sizes="(min-width: 60rem) 600px, 90vw" />
+        <figcaption>Outreach / Science Boba demonstration</figcaption>
+      </figure>
+    </article>
+  </div>
+</section>
+
+<script>
+  import "../scripts/outside-research";
+</script>
+
+<style>
+  .outside {
+    margin-block: clamp(5rem, 8vw, 8rem);
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    background: #203f4b;
+    color: #d3e1e5;
+  }
+
+  .outside__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .outside__eyebrow {
+    color: #a6d2dc;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+  }
+
+  .outside__controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .outside__controls[hidden] {
+    display: none;
+  }
+
+  .outside__count {
+    margin-right: 0.5rem;
+    color: #a6c3cc;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .outside__arrow {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(185, 224, 233, 0.45);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    color: #e8f3f6;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition:
+      background-color var(--motion-micro) var(--motion-ease),
+      border-color var(--motion-micro) var(--motion-ease),
+      transform var(--motion-micro) var(--motion-ease);
+  }
+
+  .outside__arrow:hover {
+    border-color: #b9e0e9;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .outside__arrow[data-outside-next]:hover {
+    transform: translateX(2px);
+  }
+
+  .outside__arrow[data-outside-prev]:hover {
+    transform: translateX(-2px);
+  }
+
+  .outside__arrow:focus-visible {
+    outline: 2px solid #b9e0e9;
+    outline-offset: 3px;
+  }
+
+  .outside__slide {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .outside__slide + .outside__slide {
+    margin-top: 4rem;
+  }
+
+  .outside__copy {
+    max-width: 500px;
+    min-width: 0;
+  }
+
+  .outside__copy h3 {
+    color: #fff;
+    font-size: clamp(2.3rem, 3.6vw, 3.5rem);
+    overflow-wrap: anywhere;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  .outside__copy > p {
+    margin-top: 1.2rem;
+  }
+
+  .outside__copy a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: #b9e0e9;
+    font-weight: 650;
+  }
+
+  .outside__hint,
+  .outside__credit {
+    color: #9fbcc5;
+    font-size: 0.8rem;
+  }
+
+  .outside__figure {
+    min-width: 0;
+  }
+
+  .outside__figure :global(img) {
+    width: 100%;
+    max-height: 580px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .outside__figure figcaption,
+  .outside__credit {
+    margin-top: 0.6rem;
+    color: #c1d6dc;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .outside__photos {
+    min-width: 0;
+  }
+
+  /* Two uncropped photographs at a shared height: each grows in proportion to its aspect ratio. */
+  .outside__photo-row {
+    display: flex;
+    gap: clamp(0.6rem, 1.5vw, 1rem);
+  }
+
+  .outside__photo {
+    flex: var(--ratio) 1 0;
+    min-width: 0;
+  }
+
+  .outside__photo a {
+    display: block;
+    overflow: hidden;
+    cursor: zoom-in;
+  }
+
+  .outside__photo :global(img) {
+    width: 100%;
+    height: auto;
+    transition: transform 450ms var(--motion-ease);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .outside__photo a:hover :global(img) {
+      transform: scale(1.025);
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .outside__slide {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    }
+
+    /* Photographs get most of the width; the copy stays a narrow column. */
+    .outside__slide[data-layout="photos"] {
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+    }
+  }
+
+  /* Enhanced: slides share one grid cell, so the panel keeps the height of the
+     tallest slide and changing slides never shifts the page below. */
+  .outside[data-enabled] .outside__track {
+    display: grid;
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+
+  .outside[data-enabled] .outside__slide {
+    grid-area: 1 / 1;
+    margin-top: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(calc(var(--outside-dir, 1) * 16px));
+    transition:
+      opacity 320ms var(--motion-ease),
+      transform 320ms var(--motion-ease),
+      visibility 0s linear 320ms;
+  }
+
+  .outside[data-enabled] .outside__slide[data-active] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 320ms var(--motion-ease),
+      transform 320ms var(--motion-ease),
+      visibility 0s;
+  }
+
+  /* Stacked (narrow) slides pack to the top instead of spreading over the tallest slide's height. */
+  @media (max-width: 59.99rem) {
+    .outside[data-enabled] .outside__slide {
+      align-content: start;
+      gap: 1.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .outside__arrow,
+    .outside__photo :global(img),
+    .outside[data-enabled] .outside__slide,
+    .outside[data-enabled] .outside__slide[data-active] {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

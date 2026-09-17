@@ -26,7 +26,7 @@ const REVEAL_SELECTOR = [
   ".project__body > .scope",
   ".work__section .work__rail",
   ".about__block",
-  ".about__outside",
+  ".outside",
 ].join(",");
 
 function initReveal(root: HTMLElement) {
@@ -96,10 +96,10 @@ function initPointerCards(root: HTMLElement) {
   });
 }
 
-// ---------------------------------------------------------------- Work jump links
+// ---------------------------------------------------------------- page jump links (Work, About)
 
 function initWorkJump(root: HTMLElement) {
-  const links = [...root.querySelectorAll<HTMLAnchorElement>('.work__jump a[href^="#"]')];
+  const links = [...root.querySelectorAll<HTMLAnchorElement>('.page-jump a[href^="#"]')];
   const sections = links
     .map((link) => document.getElementById(link.getAttribute("href")!.slice(1)))
     .filter((section): section is HTMLElement => section !== null);

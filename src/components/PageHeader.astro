@@ -1,0 +1,219 @@
+---
+// Shared header for the About, Work, and CV pages: a thin meta line, a
+// left-aligned title with a one-line description and optional jump links or
+// actions (default slot), and a compact facts list on the right. Every fact
+// passed in must come from existing site content or be computed from it.
+interface Fact {
+  label: string;
+  value: string;
+  href?: string;
+}
+
+interface Props {
+  index: string;
+  section: string;
+  title: string;
+  lede: string;
+  facts: Fact[];
+  accent?: string;
+  titleId?: string;
+}
+
+const { index, section, title, lede, facts, accent = "#164e73", titleId } = Astro.props;
+---
+
+<header class="page-head" style={`--page-accent: ${accent}`}>
+  <p class="page-head__meta">
+    <span class="page-head__index">{index} / {section}</span>
+    <span class="page-head__rule" aria-hidden="true"></span>
+    <span class="page-head__owner">Yansheng Luo · University of Florida</span>
+  </p>
+
+  <div class="page-head__body">
+    <div class="page-head__main">
+      <h1 id={titleId}>{title}</h1>
+      <p class="page-head__lede">{lede}</p>
+      {Astro.slots.has("default") && <div class="page-head__extra"><slot /></div>}
+    </div>
+
+    <dl class="page-head__facts">
+      {
+        facts.map((fact) => (
+          <div>
+            <dt>{fact.label}</dt>
+            <dd>{fact.href ? <a href={fact.href}>{fact.value}</a> : fact.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</header>
+
+<style>
+  .page-head {
+    padding-block: clamp(2.25rem, 4.5vw, 3.75rem) clamp(1.75rem, 3vw, 2.5rem);
+    border-bottom: 2px solid var(--page-accent);
+  }
+
+  .page-head__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+  }
+
+  .page-head__index {
+    color: var(--page-accent);
+    white-space: nowrap;
+  }
+
+  .page-head__rule {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .page-head__owner {
+    white-space: nowrap;
+  }
+
+  .page-head__body {
+    display: grid;
+    gap: 2rem 3rem;
+    margin-top: clamp(1.75rem, 3.5vw, 2.75rem);
+  }
+
+  .page-head__main {
+    min-width: 0;
+  }
+
+  .page-head h1 {
+    font-size: clamp(2.6rem, 4.6vw, 4rem);
+    font-weight: 650;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .page-head__lede {
+    max-width: 48ch;
+    margin-top: 1rem;
+    color: var(--ink-2);
+    font-size: clamp(1.02rem, 1.25vw, 1.15rem);
+    line-height: 1.55;
+  }
+
+  .page-head__extra {
+    margin-top: 1.5rem;
+  }
+
+  .page-head__facts {
+    display: grid;
+    align-content: end;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .page-head__facts > div {
+    display: grid;
+    grid-template-columns: minmax(7.5rem, 0.8fr) minmax(0, 1.4fr);
+    gap: 1rem;
+    padding-block: 0.7rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .page-head__facts > div:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-head__facts dt {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    text-transform: uppercase;
+  }
+
+  .page-head__facts dd {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .page-head__facts a {
+    color: var(--page-accent);
+  }
+
+  /* Jump links placed in the slot by a page. */
+  .page-head :global(.page-jump) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .page-head :global(.page-jump a) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 40px;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.7);
+    color: var(--text);
+    font-size: 0.74rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition:
+      border-color var(--motion-micro) var(--motion-ease),
+      color var(--motion-micro) var(--motion-ease),
+      background-color var(--motion-micro) var(--motion-ease);
+  }
+
+  .page-head :global(.page-jump a span) {
+    color: var(--page-accent);
+    font-size: 0.66rem;
+    font-weight: 700;
+  }
+
+  .page-head :global(.page-jump a:hover) {
+    border-color: var(--page-accent);
+    color: var(--page-accent);
+  }
+
+  .page-head :global(.page-jump a[aria-current="true"]) {
+    border-color: color-mix(in srgb, var(--page-accent) 45%, white);
+    background: color-mix(in srgb, var(--page-accent) 6%, white);
+    color: var(--page-accent);
+  }
+
+  @media (min-width: 60rem) {
+    .page-head__body {
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      align-items: end;
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .page-head__owner {
+      display: none;
+    }
+  }
+
+  @media (max-width: 26rem) {
+    .page-head__facts > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.15rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-head :global(.page-jump a) {
+      transition: none;
+    }
+  }
+</style>

@@ -95,7 +95,6 @@
 .protein-card,
 .wi,
 .about__block,
-.about__outside,
 .cv__viewer,
 .regeneration-gallery figure {
   transition:
@@ -137,7 +136,6 @@
   }
 
   .about__block:hover,
-  .about__outside:hover,
   .regeneration-gallery figure:hover {
     transform: translateY(-2px);
   }
@@ -231,35 +229,21 @@
   opacity: 1;
 }
 
-/* ---------- Work section jump links report the section in view ---------- */
-
-.work__jump a {
-  position: relative;
-  transition:
-    color var(--motion-micro) var(--motion-ease),
-    background-color var(--motion-micro) var(--motion-ease),
-    border-color var(--motion-micro) var(--motion-ease);
-}
-
-.work__jump a[aria-current="true"] {
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 6%, transparent);
-}
-
-.work__jump a[aria-current="true"]::after {
+/* Page-header jump links (styled in PageHeader.astro) report the section in view. */
+.page-jump a[aria-current="true"]::after {
   content: "";
   position: absolute;
-  left: 0.75rem;
-  right: 0.75rem;
-  bottom: 0;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: -1px;
   height: 2px;
-  background: var(--accent);
+  background: var(--page-accent, var(--accent));
 }
 
-/* Heading anchors land below the sticky header. */
+/* Heading and section anchors land below the sticky header. */
 .project__body h2[id],
 .work__section[id],
-.about h2[id] {
+.about section[id] {
   scroll-margin-top: calc(var(--header-h) + 1.25rem);
 }
 
@@ -292,7 +276,6 @@
   .output,
   .wi,
   .about__block,
-  .about__outside,
   .regeneration-gallery figure,
   .home-about__figure img,
   .regeneration-gallery img,

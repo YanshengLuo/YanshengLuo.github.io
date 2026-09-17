@@ -48,5 +48,13 @@ export const education = {
 export const teaching =
   "I have taught as an undergraduate teaching assistant for Intro Bioinformatics and for Microbiology Lab at the University of Florida, and earlier for Comparative World Agriculture. I mentor newer members of the UF iGEM dry lab, and I have tutored high school and undergraduate students in biology, chemistry, and quantitative subjects since 2020.";
 
+/** About page "Outside research" slides. Outreach wording follows the CV. */
+export const outsideSlides = {
+  photography:
+    "I also photograph wildlife, working with low, directional light so that texture and form carry the image. Both photographs here are my own.",
+  outreach:
+    "At the 2026 ITERT Science Fair, I taught K–12 students polymer chemistry through a sodium alginate and calcium chloride “science boba” demonstration. At UF, I have also volunteered for Science Olympiad with the NeuroGenetics Student Organization.",
+};
+
 export const beyondResearch =
   "Outside the lab, I am a NAUI-certified Master Scuba Diver. I previously built and maintained a small bilingual marine-science and diving blog, FantasticSea, which reflects a longstanding interest in underwater biology and science communication.";

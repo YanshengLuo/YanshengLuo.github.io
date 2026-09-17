@@ -1,7 +1,18 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import Button from "../components/Button.astro";
+import PageHeader from "../components/PageHeader.astro";
 import { site } from "../data/profile";
+import { EMAIL, links } from "../data/social";
+
+// File facts are read from the published PDF at build time, so they stay correct when the CV is replaced.
+const pdf = readFileSync(path.join(process.cwd(), "public", site.cvPath)).toString("latin1");
+const sizeKb = Math.round(pdf.length / 1024);
+const pageCount =
+  Number(pdf.match(/\/Type\s*\/Pages[^>]*?\/Count\s+(\d+)/)?.[1]) || (pdf.match(/\/Type\s*\/Page(?![s\w])/g) ?? []).length;
+const fileSummary = ["PDF", pageCount ? `${pageCount} pages` : "", `${sizeKb} KB`].filter(Boolean).join(" · ");
 ---
 
 <BaseLayout
@@ -9,16 +20,23 @@ import { site } from "../data/profile";
   description="Curriculum vitae of Yansheng Luo, undergraduate researcher at the University of Florida (PDF)."
 >
   <section class="container cv" aria-labelledby="cv-title">
-    <div class="cv__head">
-      <div>
-        <h1 id="cv-title">Curriculum Vitae</h1>
-        <p class="cv__updated">Last updated: {site.cvUpdated}</p>
-      </div>
+    <PageHeader
+      index="04"
+      section="CV"
+      title="Curriculum Vitae"
+      titleId="cv-title"
+      lede="Education, research experience, publications, presentations, awards, teaching, and training."
+      facts={[
+        { label: "Last updated", value: site.cvUpdated },
+        { label: "Format", value: fileSummary },
+        { label: "Contact", value: EMAIL, href: links.email },
+      ]}
+    >
       <div class="cv__actions">
         <Button href={site.cvPath}>Open PDF</Button>
         <Button href={site.cvPath} variant="plain" download="Yansheng_Luo_CV.pdf">Download PDF</Button>
       </div>
-    </div>
+    </PageHeader>
 
     <div class="cv__viewer">
       <iframe
@@ -29,7 +47,7 @@ import { site } from "../data/profile";
     </div>
 
     <p class="cv__fallback">
-      PDF, 4 pages, 252 KB. If the preview does not display, <a href={site.cvPath}>open the CV as a PDF</a
+      {fileSummary}. If the preview does not display, <a href={site.cvPath}>open the CV as a PDF</a
       >.
     </p>
   </section>
@@ -37,26 +55,11 @@ import { site } from "../data/profile";
 
 <style>
   .cv {
-    padding-block: clamp(2.5rem, 7vw, 5rem) var(--space-section);
+    padding-bottom: var(--space-section);
   }
 
-  .cv__head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1.5rem 2rem;
-    padding-bottom: 2rem;
-  }
-
-  .cv h1 {
-    font-size: clamp(2.6rem, 1.6rem + 4vw, 5rem);
-    letter-spacing: -0.022em;
-  }
-
-  .cv__updated {
-    margin-top: 0.75rem;
-    color: var(--muted);
+  .cv__viewer {
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
   }
 
   .cv__actions {

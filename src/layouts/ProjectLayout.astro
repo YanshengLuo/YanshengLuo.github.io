@@ -67,6 +67,9 @@ const nextProject = projects[project.next as ProjectId];
   .project__body :global(.scope) { border-color: var(--project-accent); background: color-mix(in srgb, var(--project-accent) 7%, white); }
   .project__body :global(figure) { width: 100%; max-width: 100%; margin-block: 3rem; }
   .project__body :global(figure img) { width: 100%; max-height: 650px; object-fit: contain; background: #f4f6f5; border: 0; border-radius: 0; }
+  /* Photographs (not figures) fill their frame instead of letterboxing. */
+  .project__body :global(figure.figure--photo) { margin-block: 2.5rem 0; }
+  .project__body :global(figure.figure--photo img) { height: auto; aspect-ratio: 4 / 3; object-fit: cover; background: none; border-radius: var(--radius); }
 
   /* Next research: the following project's accent, a quiet sweep on hover. */
   .project-next { position: relative; isolation: isolate; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .5rem 1.25rem; align-items: center; max-width: 1030px; margin: clamp(4rem, 7vw, 7rem) auto 0; padding: 1.25rem 1rem 1.25rem 0; overflow: hidden; border-top: 2px solid var(--next-accent); color: var(--text); text-decoration: none; }

@@ -1,26 +1,42 @@
 ---
-import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SocialLinks from "../components/SocialLinks.astro";
-import scuba from "../assets/profile/scuba.webp";
-import { aboutNarrative, education, teaching, beyondResearch } from "../data/profile";
-import { links } from "../data/social";
+import PageHeader from "../components/PageHeader.astro";
+import OutsideResearch from "../components/OutsideResearch.astro";
+import ImageDialog from "../components/ImageDialog.astro";
+import { aboutNarrative, education, teaching } from "../data/profile";
 import { emphasize } from "../utils/format";
 ---
 <BaseLayout title="About | Yansheng Luo" description="Yansheng Luo studies biology and chemistry at the University of Florida, with minors in bioinformatics and statistics, and works across experimental biology, genomics, and translational cancer research.">
   <div class="container about">
-    <header class="about__head">
-      <p class="about__index">03 / The person behind the research</p>
-      <h1>About</h1>
-    </header>
-    <section class="about__block about__block--lead" aria-labelledby="research-path-title">
+    <PageHeader
+      index="03"
+      section="About"
+      title="About"
+      lede="The person behind the research: research path, education, teaching, and life outside the lab."
+      accent="#3c6657"
+      facts={[
+        { label: "Current focus", value: "Translational oncology" },
+        { label: "Research groups", value: "Maden Lab · Song Lab · MD Anderson ITERT" },
+        { label: "Outside research", value: "Diving · photography · outreach" },
+      ]}
+    >
+      <nav class="page-jump" aria-label="About sections">
+        <a href="#research-path">Research path</a>
+        <a href="#education">Education</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#outside">Outside research</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </PageHeader>
+    <section class="about__block about__block--lead" id="research-path" aria-labelledby="research-path-title">
       <div class="about__rail"><span>01</span><h2 id="research-path-title">Research path</h2></div>
       <div class="about__prose about__prose--lead">
         {aboutNarrative.map((paragraph) => <p set:html={emphasize(paragraph)} />)}
       </div>
     </section>
     <div class="about__facts">
-      <section class="about__block" aria-labelledby="education-title">
+      <section class="about__block" id="education" aria-labelledby="education-title">
         <div class="about__rail"><span>02</span><h2 id="education-title">Education</h2></div>
         <div class="about__prose">
           <p class="about__school">{education.institution}</p>
@@ -28,60 +44,39 @@ import { emphasize } from "../utils/format";
           <p class="meta">{education.expected} · {education.gpa}</p>
         </div>
       </section>
-      <section class="about__block" aria-labelledby="teaching-title">
+      <section class="about__block" id="teaching" aria-labelledby="teaching-title">
         <div class="about__rail"><span>03</span><h2 id="teaching-title">Teaching &amp; mentorship</h2></div>
         <div class="about__prose"><p>{teaching}</p></div>
       </section>
     </div>
-    <section class="about__outside" aria-labelledby="outside-title">
-      <div class="about__outside-copy">
-        <p class="about__index">Beyond the lab</p>
-        <h2 id="outside-title">Outside research</h2>
-        <p>{beyondResearch}</p>
-        <p class="about__external"><a href={links.fantasticSea}>FantasticSea ↗</a></p>
-      </div>
-      <figure class="about__figure">
-        <Image src={scuba} alt="Yansheng Luo in scuba gear at the surface of a clear freshwater spring." widths={[640, 960, 1280]} sizes="(min-width: 60rem) 650px, 90vw" />
-        <figcaption>Under the surface / Outside research</figcaption>
-      </figure>
-    </section>
-    <section class="about__block about__contact" aria-labelledby="contact-title">
+    <OutsideResearch />
+    <section class="about__block about__contact" id="contact" aria-labelledby="contact-title">
       <div class="about__rail"><span>04</span><h2 id="contact-title">Contact</h2></div>
       <div class="about__prose"><SocialLinks /></div>
     </section>
   </div>
+  <ImageDialog />
 </BaseLayout>
 <style>
   .about { padding-bottom: var(--space-section); }
-  .about__head { display: grid; gap: 1rem; padding-block: clamp(4rem, 7vw, 7rem); border-bottom: 2px solid #3c6657; }
-  @media (max-width: 47.99rem) { .about__head { padding-top: 2.5rem; } }
-  .about__index { color: #3c6657; font-size: .7rem; font-weight: 700; letter-spacing: .075em; text-transform: uppercase; }
-  .about__head h1 { font-size: var(--type-hero); letter-spacing: -.05em; line-height: 1; }
   .about__block { display: grid; gap: 1.5rem 3rem; padding-block: clamp(2.5rem, 4vw, 4rem); border-bottom: 1px solid var(--border); }
   .about__rail { display: flex; align-items: baseline; gap: 1rem; }
   .about__rail span { color: #3c6657; font-size: .72rem; font-weight: 700; }
   .about__rail h2 { font-size: .9rem; font-weight: 650; letter-spacing: .01em; }
   .about__prose { display: grid; align-content: start; gap: 1rem; max-width: 650px; }
-  .about__prose--lead { max-width: 850px; font-size: clamp(1.08rem, 1.5vw, 1.3rem); line-height: 1.6; }
-  .about__prose--lead p:first-child { font-size: clamp(1.45rem, 2.3vw, 2.2rem); line-height: 1.35; letter-spacing: -.025em; }
+  /* Research path: one lead paragraph at a moderate display size, then body text. */
+  .about__prose--lead { max-width: 960px; gap: 1.25rem 3rem; font-size: clamp(1.05rem, 1.25vw, 1.15rem); line-height: 1.68; }
+  .about__prose--lead p { color: var(--ink-2); }
+  .about__prose--lead p:first-child { max-width: 42em; color: var(--text); font-size: clamp(1.3rem, 1.85vw, 1.6rem); line-height: 1.45; letter-spacing: -.018em; }
   .about__school { font-size: 1.1rem; font-weight: 600; }
   .about__degrees { color: var(--muted); }
   .about__facts { display: grid; gap: 3rem; }
-  .about__outside { display: grid; gap: 2.5rem; align-items: center; margin-block: clamp(5rem, 8vw, 8rem); padding: clamp(1.5rem, 4vw, 3.5rem); background: #203f4b; color: #d3e1e5; }
-  .about__outside .about__index { color: #a6d2dc; }
-  .about__outside-copy { max-width: 500px; }
-  .about__outside h2 { margin-top: .7rem; color: #fff; font-size: var(--type-section); letter-spacing: -.04em; }
-  .about__outside-copy > p:not(.about__index) { margin-top: 1.2rem; }
-  .about__outside-copy a { color: #b9e0e9; font-weight: 650; }
-  .about__external a { display: inline-flex; align-items: center; min-height: 44px; }
-  .about__figure { min-width: 0; }
-  .about__figure img { width: 100%; max-height: 640px; aspect-ratio: 4 / 5; object-fit: cover; }
-  .about__figure figcaption { margin-top: .6rem; color: #c1d6dc; font-size: .7rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
   @media (min-width: 1200px) {
-    .about__head, .about__block { grid-template-columns: minmax(0, 2fr) minmax(0, 10fr); }
-    .about__head h1 { grid-column: 2; }
+    .about__block { grid-template-columns: minmax(0, 2fr) minmax(0, 10fr); }
+    /* The two follow-on paragraphs share the width beneath the lead. */
+    .about__prose--lead { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .about__prose--lead p:first-child { grid-column: 1 / -1; margin-bottom: .5rem; }
     .about__facts { grid-template-columns: 1fr 1fr; }
     .about__facts .about__block { grid-template-columns: 1fr; }
-    .about__outside { grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); }
-  }
+    }
 </style>

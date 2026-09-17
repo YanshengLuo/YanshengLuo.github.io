@@ -44,3 +44,5 @@ in the context of how the model and phenotype were generated.
 
 Presented as a poster and lightning talk at MD Anderson Cancer Center, 2026. The study is
 unpublished, so clone-level results and treatment-group figures are not shown here.
+
+<figure class="figure--photo"><a data-lightbox-trigger href="/images/mdanderson-trainees-2000.webp" data-full="/images/mdanderson-trainees-2000.webp" data-width="2000" data-height="1500" data-alt="Group photograph of summer research trainees in the ITERT program at MD Anderson Cancer Center, 2026." data-caption="With fellow ITERT summer research trainees at MD Anderson Cancer Center, 2026."><img src="/images/mdanderson-trainees-1200.webp" width="1200" height="900" alt="Group photograph of summer research trainees in the ITERT program at MD Anderson Cancer Center, 2026." loading="lazy" decoding="async"></a><figcaption>With fellow ITERT summer research trainees at MD Anderson Cancer Center, 2026.</figcaption></figure>

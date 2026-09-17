@@ -2,6 +2,7 @@
 import { getImage } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import WorkItem from "../components/WorkItem.astro";
+import PageHeader from "../components/PageHeader.astro";
 import { workSections, type WorkEntry } from "../data/work";
 import { figures } from "../data/figures";
 import { RESEARCH_ROUTES } from "../data/research";
@@ -18,6 +19,18 @@ const projectPreviews: Record<string, { label: string; accent: string; meta: str
   [RESEARCH_ROUTES.regeneration]: { label: "Acomys · regeneration", accent: "#3d6959", meta: "DRG explants · peripheral nerve repair · imaging" },
   [RESEARCH_ROUTES["protein-design"]]: { label: "Protein design", accent: "#5d4f8b", meta: "Candidate prioritization · docking · rank stability" },
 };
+// Header facts are counted from the record itself so they cannot drift from it.
+const entryCount = workSections.reduce((total, section) => total + section.entries.length, 0);
+const publications = workSections.find((section) => section.id === "publications")?.entries ?? [];
+const accepted = publications.filter((entry) => entry.venue?.includes("Accepted")).length;
+const inPrep = publications.filter((entry) => entry.when === "In prep.").length;
+const latest = workSections.find((section) => section.id === "presentations")?.entries[0];
+const latestVenue = latest?.venue?.split("·")[1]?.split(",")[0]?.trim();
+const headerFacts = [
+  { label: "Record", value: `${entryCount} entries across ${workSections.length} sections` },
+  ...(latest && latestVenue ? [{ label: "Most recent", value: `${latest.when} · ${latestVenue}` }] : []),
+  { label: "Manuscripts", value: `${accepted} accepted · ${inPrep} in preparation` },
+];
 const previewFor = (entry: WorkEntry, sectionId: string) => {
   const project = entry.project ? projectPreviews[entry.project] : undefined;
   if (!project) return undefined;
@@ -32,14 +45,18 @@ const previewFor = (entry: WorkEntry, sectionId: string) => {
 ---
 <BaseLayout title="Work | Yansheng Luo" description="Publications, manuscripts, presentations, recognition, and teaching by Yansheng Luo, University of Florida.">
   <div class="container work">
-    <header class="work__head">
-      <p class="work__index">02 / Selected work</p>
-      <h1>Work</h1>
-      <p class="work__lede">Publications, presentations, recognition, and teaching.</p>
-    </header>
-    <nav class="work__jump" aria-label="Work sections">
-      {workSections.map((section, i) => <a href={"#" + section.id}><span>{"0" + (i + 1)}</span>{section.heading}</a>)}
-    </nav>
+    <PageHeader
+      index="02"
+      section="Work"
+      title="Work"
+      lede="Publications, presentations, recognition, and teaching."
+      accent="#334e62"
+      facts={headerFacts}
+    >
+      <nav class="page-jump" aria-label="Work sections">
+        {workSections.map((section, i) => <a href={"#" + section.id}><span>{"0" + (i + 1)}</span>{section.heading}</a>)}
+      </nav>
+    </PageHeader>
     {workSections.map((section, i) => (
       <section class="work__section" id={section.id} aria-labelledby={section.id + "-title"}>
         <div class="work__rail"><span>{"0" + (i + 1)}</span><h2 id={section.id + "-title"}>{section.heading}</h2></div>
@@ -60,25 +77,15 @@ const previewFor = (entry: WorkEntry, sectionId: string) => {
 </BaseLayout>
 <style>
   .work { padding-bottom: var(--space-section); }
-  .work__head { display: grid; gap: 1rem; padding-block: clamp(4rem, 7vw, 7rem); border-bottom: 2px solid #334e62; }
-  @media (max-width: 47.99rem) { .work__head { padding-top: 2.5rem; } }
-  .work__index { color: #334e62; font-size: .7rem; font-weight: 700; letter-spacing: .075em; text-transform: uppercase; }
-  .work__head h1 { font-size: var(--type-hero); line-height: 1; letter-spacing: -.05em; }
-  .work__lede { max-width: 40ch; color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.2rem); }
-  .work__jump { display: flex; flex-wrap: wrap; gap: .5rem; padding-block: 1.5rem; border-bottom: 1px solid var(--border); }
-  .work__jump a { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: .55rem .75rem; border: 1px solid var(--border); color: var(--text); font-size: .75rem; font-weight: 650; text-decoration: none; }
-  .work__jump a:hover { border-color: #334e62; color: #334e62; }
-  .work__jump span, .work__rail span { color: #45677f; font-size: .7rem; font-weight: 700; }
+  .work__rail span { color: #45677f; font-size: .7rem; font-weight: 700; }
   .work__section { display: grid; gap: 1.5rem 3rem; padding-block: clamp(3rem, 5vw, 5rem); border-bottom: 1px solid var(--border); }
-  .work__rail h2 { margin-top: .7rem; font-size: clamp(1.7rem, 2.5vw, 2.4rem); letter-spacing: -.045em; }
+  .work__rail h2 { margin-top: .7rem; font-size: clamp(1.45rem, 1.9vw, 1.85rem); letter-spacing: -.035em; text-wrap: balance; }
   .work__list { margin: 0; padding: 0; list-style: none; }
   .work__list :global(.wi:first-child) { border-top: 0; }
   .work__list :global(.wi) { padding-block: 1.5rem; }
   .work__list :global(.wi__title) { font-size: clamp(1rem, 1.4vw, 1.2rem); font-weight: 600; }
   @media (min-width: 1200px) {
-    .work__head, .work__section { grid-template-columns: minmax(0, 2fr) minmax(0, 10fr); }
-    .work__head h1, .work__lede { grid-column: 2; }
-    .work__jump { padding-left: calc(100% / 6 + 3rem); }
+    .work__section { grid-template-columns: minmax(0, 2fr) minmax(0, 10fr); }
   }
 
   /* Floating preview: fixed-position, so the record layout never moves. */
