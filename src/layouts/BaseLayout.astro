@@ -48,7 +48,10 @@ const ogImage = new URL("/og-image.png", Astro.site).href;
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Yansheng Luo — undergraduate researcher at the University of Florida studying treatment response, clonal evolution, and transcriptomic response scoring." />
+    <meta
+      property="og:image:alt"
+      content="Yansheng Luo — undergraduate researcher at the University of Florida studying treatment response, clonal evolution, and transcriptomic response scoring."
+    />
     <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -58,12 +61,21 @@ const ogImage = new URL("/og-image.png", Astro.site).href;
 
     <!-- Marks the document as script-capable before first paint so the mobile
          menu can replace the plain navigation row. -->
-    <script is:inline>document.documentElement.setAttribute("data-js", "");</script>
-
-    {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <script is:inline>
+      document.documentElement.setAttribute("data-js", "");
+    </script>
+    {jsonLd && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(jsonLd)}
+      ></script>
+    )}
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
     <Header />
     <main id="main" tabindex="-1">
       <slot />

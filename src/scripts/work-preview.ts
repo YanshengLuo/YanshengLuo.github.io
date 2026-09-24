@@ -7,14 +7,24 @@
 export {};
 
 const preview = document.querySelector<HTMLElement>("[data-work-preview]");
-const desktop = window.matchMedia("(min-width: 75rem) and (hover: hover) and (pointer: fine)");
+const desktop = window.matchMedia(
+  "(min-width: 75rem) and (hover: hover) and (pointer: fine)",
+);
 
 if (preview) {
-  const image = preview.querySelector<HTMLImageElement>("[data-work-preview-image]")!;
-  const label = preview.querySelector<HTMLElement>("[data-work-preview-label]")!;
-  const title = preview.querySelector<HTMLElement>("[data-work-preview-title]")!;
+  const image = preview.querySelector<HTMLImageElement>(
+    "[data-work-preview-image]",
+  )!;
+  const label = preview.querySelector<HTMLElement>(
+    "[data-work-preview-label]",
+  )!;
+  const title = preview.querySelector<HTMLElement>(
+    "[data-work-preview-title]",
+  )!;
   const meta = preview.querySelector<HTMLElement>("[data-work-preview-meta]")!;
-  const rows = [...document.querySelectorAll<HTMLElement>(".wi[data-preview-label]")];
+  const rows = [
+    ...document.querySelectorAll<HTMLElement>(".wi[data-preview-label]"),
+  ];
   image.addEventListener("load", () => place());
   const GAP = 10;
   const PAD = 16;
@@ -39,9 +49,13 @@ if (preview) {
     if (current !== row) {
       current = row;
       label.textContent = data.previewLabel ?? "";
-      title.textContent = row.querySelector(".wi__title")?.textContent?.trim() ?? "";
+      title.textContent =
+        row.querySelector(".wi__title")?.textContent?.trim() ?? "";
       meta.textContent = data.previewMeta ?? "";
-      preview.style.setProperty("--preview-accent", data.previewAccent ?? "#164e73");
+      preview.style.setProperty(
+        "--preview-accent",
+        data.previewAccent ?? "#164e73",
+      );
       if (data.previewImage) {
         image.src = data.previewImage;
         image.alt = data.previewAlt ?? "";

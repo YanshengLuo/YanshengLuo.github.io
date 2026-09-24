@@ -60,8 +60,8 @@
 /* ---------- Section reveal ---------- */
 
 [data-js] .reveal {
-  opacity: 0;
-  transform: translateY(16px);
+  opacity: 1;
+  transform: none;
   transition:
     opacity var(--motion-reveal) var(--motion-ease),
     transform var(--motion-reveal) var(--motion-ease);
@@ -122,29 +122,32 @@
 
 @media (hover: hover) and (pointer: fine) {
   .feature:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 32px 70px rgba(17, 42, 67, 0.14);
+    border-color: var(--feature-accent, var(--accent));
   }
 
   .micro-stage:hover,
   .protein-card:hover {
-    transform: translateY(-2px);
+    transform: none;
   }
 
   .wi:hover {
-    background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 4%, transparent), transparent 76%);
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--accent) 4%, transparent),
+      transparent 76%
+    );
   }
 
   .about__block:hover,
   .regeneration-gallery figure:hover {
-    transform: translateY(-2px);
+    transform: none;
   }
 
   .home-about__figure:hover img,
   .micro-stage:hover img,
   .output-preview__panel:hover img,
   .throughline__portrait:hover img {
-    transform: scale(1.018);
+    transform: none;
   }
 
   /* Lightbox images: slightly stronger, never enough to crop scientific detail. */
@@ -163,7 +166,7 @@
   .evidence__node:hover,
   .evidence__proteomic:hover,
   .funnel__stages button:hover {
-    transform: translateY(-2px);
+    transform: none;
   }
 }
 

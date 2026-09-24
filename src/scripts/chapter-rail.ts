@@ -11,8 +11,12 @@ export {};
 
 const rail = document.querySelector<HTMLElement>("[data-chapter-rail]");
 const progress = document.querySelector<HTMLElement>("[data-rail-progress]");
-const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-rail-link]"));
-const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter]"));
+const links = Array.from(
+  document.querySelectorAll<HTMLAnchorElement>("[data-rail-link]"),
+);
+const sections = Array.from(
+  document.querySelectorAll<HTMLElement>("[data-chapter]"),
+);
 
 if (rail && links.length && sections.length) {
   let ticking = false;
@@ -24,7 +28,8 @@ if (rail && links.length && sections.length) {
     for (const link of links) {
       if (link.dataset.railLink === id) {
         link.setAttribute("aria-current", "true");
-        if (link.dataset.accent) rail.style.setProperty("--rail-accent", link.dataset.accent);
+        if (link.dataset.accent)
+          rail.style.setProperty("--rail-accent", link.dataset.accent);
       } else {
         link.removeAttribute("aria-current");
       }
@@ -37,7 +42,10 @@ if (rail && links.length && sections.length) {
     ticking = false;
     const max = document.documentElement.scrollHeight - window.innerHeight;
     const ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
-    progress?.style.setProperty("--rail-progress", `${(ratio * 100).toFixed(2)}%`);
+    progress?.style.setProperty(
+      "--rail-progress",
+      `${(ratio * 100).toFixed(2)}%`,
+    );
 
     const line = window.innerHeight * 0.42;
     let current = sections[0];
@@ -45,7 +53,8 @@ if (rail && links.length && sections.length) {
       if (section.getBoundingClientRect().top <= line) current = section;
     }
     // At the very bottom the last chapter may never reach the line.
-    if (max > 0 && window.scrollY >= max - 2) current = sections[sections.length - 1];
+    if (max > 0 && window.scrollY >= max - 2)
+      current = sections[sections.length - 1];
     setActive(current.dataset.chapter ?? "home");
   };
 

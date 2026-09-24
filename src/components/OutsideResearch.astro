@@ -26,34 +26,74 @@ const photos = [
 ];
 ---
 
-<section class="outside" id="outside" aria-roledescription="carousel" aria-labelledby="outside-title" data-outside>
+<section
+  class="outside"
+  id="outside"
+  aria-roledescription="carousel"
+  aria-labelledby="outside-title"
+  data-outside
+>
   <div class="outside__bar">
-    <h2 class="outside__eyebrow" id="outside-title">Outside research</h2>
+    <h2 class="outside__eyebrow" id="outside-title">
+      Outside research
+    </h2>
     <div class="outside__controls" data-outside-controls hidden>
-      <p class="outside__count" aria-live="polite" data-outside-count>01 / 03 · Diving</p>
-      <button type="button" class="outside__arrow" data-outside-prev aria-label="Previous slide">
+      <p class="outside__count" aria-live="polite" data-outside-count>
+        01 / 03 · Diving
+      </p>
+      <button
+        type="button"
+        class="outside__arrow"
+        data-outside-prev
+        aria-label="Previous slide"
+      >
         <span aria-hidden="true">←</span>
       </button>
-      <button type="button" class="outside__arrow" data-outside-next aria-label="Next slide">
+      <button
+        type="button"
+        class="outside__arrow"
+        data-outside-next
+        aria-label="Next slide"
+      >
         <span aria-hidden="true">→</span>
       </button>
     </div>
   </div>
 
   <div class="outside__track" data-outside-track>
-    <article class="outside__slide" role="group" aria-roledescription="slide" aria-label="1 of 3: Diving" data-outside-slide>
+    <article
+      class="outside__slide"
+      role="group"
+      aria-roledescription="slide"
+      aria-label="1 of 3: Diving"
+      data-outside-slide
+    >
       <div class="outside__copy">
         <h3>Diving</h3>
         <p>{beyondResearch}</p>
-        <p class="outside__link"><a href={links.fantasticSea}>FantasticSea ↗</a></p>
+        <p class="outside__link">
+          <a href={links.fantasticSea}>FantasticSea ↗</a>
+        </p>
       </div>
       <figure class="outside__figure">
-        <Image src={scuba} alt="Yansheng Luo in scuba gear at the surface of a clear freshwater spring." widths={[640, 960, 1280]} sizes="(min-width: 60rem) 600px, 90vw" />
+        <Image
+          src={scuba}
+          alt="Yansheng Luo in scuba gear at the surface of a clear freshwater spring."
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 60rem) 600px, 90vw"
+        />
         <figcaption>Under the surface / Outside research</figcaption>
       </figure>
     </article>
 
-    <article class="outside__slide" role="group" aria-roledescription="slide" aria-label="2 of 3: Photography" data-outside-slide data-layout="photos">
+    <article
+      class="outside__slide"
+      role="group"
+      aria-roledescription="slide"
+      aria-label="2 of 3: Photography"
+      data-outside-slide
+      data-layout="photos"
+    >
       <div class="outside__copy">
         <h3>Photography</h3>
         <p>{outsideSlides.photography}</p>
@@ -61,9 +101,11 @@ const photos = [
       </div>
       <div class="outside__photos">
         <div class="outside__photo-row">
-        {
-          photos.map((photo) => (
-            <figure class="outside__photo" style={`--ratio: ${photo.ratio.toFixed(4)}`}>
+          {photos.map((photo) => (
+            <figure
+              class="outside__photo"
+              style={`--ratio: ${photo.ratio.toFixed(4)}`}
+            >
               <a
                 data-lightbox-trigger
                 href={photo.full.src}
@@ -74,23 +116,38 @@ const photos = [
                 data-caption="Photograph by Yansheng Luo."
                 aria-label="Enlarge photograph"
               >
-                <Image src={photo.src} alt={photo.alt} widths={[400, 700, 1000]} sizes="(min-width: 60rem) 320px, 45vw" />
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  widths={[400, 700, 1000]}
+                  sizes="(min-width: 60rem) 320px, 45vw"
+                />
               </a>
             </figure>
-          ))
-        }
+          ))}
         </div>
         <p class="outside__credit">Photographs by Yansheng Luo</p>
       </div>
     </article>
 
-    <article class="outside__slide" role="group" aria-roledescription="slide" aria-label="3 of 3: Outreach" data-outside-slide>
+    <article
+      class="outside__slide"
+      role="group"
+      aria-roledescription="slide"
+      aria-label="3 of 3: Outreach"
+      data-outside-slide
+    >
       <div class="outside__copy">
         <h3>Science outreach</h3>
         <p>{outsideSlides.outreach}</p>
       </div>
       <figure class="outside__figure">
-        <Image src={scienceBoba} alt="Yansheng Luo beside his Science Boba polymer chemistry outreach demonstration board." widths={[480, 720, 960]} sizes="(min-width: 60rem) 600px, 90vw" />
+        <Image
+          src={scienceBoba}
+          alt="Yansheng Luo beside his Science Boba polymer chemistry outreach demonstration board."
+          widths={[480, 720, 960]}
+          sizes="(min-width: 60rem) 600px, 90vw"
+        />
         <figcaption>Outreach / Science Boba demonstration</figcaption>
       </figure>
     </article>

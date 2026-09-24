@@ -26,8 +26,16 @@ body {
   margin: 0;
   /* Faint research-atlas texture behind all routes (sections paint over it). */
   background-image:
-    radial-gradient(circle at 18% 12%, rgba(90, 139, 191, 0.1), transparent 34rem),
-    radial-gradient(circle at 86% 32%, rgba(80, 128, 112, 0.08), transparent 30rem);
+    radial-gradient(
+      circle at 18% 12%,
+      rgba(90, 139, 191, 0.1),
+      transparent 34rem
+    ),
+    radial-gradient(
+      circle at 86% 32%,
+      rgba(80, 128, 112, 0.08),
+      transparent 30rem
+    );
   background-attachment: fixed;
   background-color: var(--bg);
   min-height: 100vh;
@@ -58,8 +66,20 @@ body::before {
     linear-gradient(rgba(28, 61, 92, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(28, 61, 92, 0.035) 1px, transparent 1px);
   background-size: 48px 48px;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 12%, black 82%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0, black 12%, black 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black 12%,
+    black 82%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black 12%,
+    black 82%,
+    transparent 100%
+  );
 }
 
 h1,

@@ -11,7 +11,15 @@ interface Props {
 const { href, variant = "primary", arrow = false, download } = Astro.props;
 ---
 
-<a class:list={["btn", variant === "primary" && "btn--primary"]} href={href} download={download}>
+<a
+  class:list={["btn", variant === "primary" && "btn--primary"]}
+  href={href}
+  download={download}
+>
   <slot />
-  {arrow && <span class="arrow" aria-hidden="true">→</span>}
+  {arrow && (
+    <span class="arrow" aria-hidden="true">
+      →
+    </span>
+  )}
 </a>

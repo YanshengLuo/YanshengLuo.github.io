@@ -10,16 +10,16 @@ const { variant = "list" } = Astro.props;
 ---
 
 <ul class:list={["social", `social--${variant}`]}>
-  {
-    socialLinks.map((link) => (
-      <li>
-        <a href={link.href}>
-          <span class="social__label">{link.label}</span>
-          {variant === "list" && <span class="social__handle">{link.display}</span>}
-        </a>
-      </li>
-    ))
-  }
+  {socialLinks.map((link) => (
+    <li>
+      <a href={link.href}>
+        <span class="social__label">{link.label}</span>
+        {variant === "list" && (
+          <span class="social__handle">{link.display}</span>
+        )}
+      </a>
+    </li>
+  ))}
 </ul>
 
 <style>

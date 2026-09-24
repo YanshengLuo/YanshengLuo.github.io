@@ -12,7 +12,7 @@ export interface Figure {
 export const figures = {
   "drg-culture": {
     src: drgCulture,
-    alt: "Fluorescence image of a dorsal root ganglion explant in culture, with neurites extending outward from the central ganglion.",
+    alt: "Vimentin immunofluorescence of a dorsal root ganglion explant in culture, with labeled non-neuronal structural cells radiating outward from the central ganglion.",
   },
 } satisfies Record<string, Figure>;
 

@@ -10,16 +10,36 @@ interface Props {
 
 const { entry, preview } = Astro.props;
 const previewAttributes = preview
-  ? Object.fromEntries(Object.entries(preview).map(([key, value]) => [`data-preview-${key}`, value]))
+  ? Object.fromEntries(
+      Object.entries(preview).map(([key, value]) => [
+        `data-preview-${key}`,
+        value,
+      ]),
+    )
   : {};
 ---
 
 <li class="wi" {...previewAttributes}>
   <p class="wi__when meta">{entry.when}</p>
   <div class="wi__body">
-    <h3 class="wi__title" set:html={emphasize(entry.title)} />
+    <h3 class="wi__title">
+      {entry.href ? (
+        <a href={entry.href} rel="noopener" target="_blank">
+          <span set:html={emphasize(entry.title)} />
+          <span class="wi__ext" aria-hidden="true">
+            ↗
+          </span>
+          <span class="visually-hidden">(opens in a new tab)</span>
+        </a>
+      ) : (
+        <span set:html={emphasize(entry.title)} />
+      )}
+    </h3>
     {entry.authors && <p class="wi__authors meta">{entry.authors}</p>}
-    {entry.venue && <p class="wi__venue meta" set:html={emphasize(entry.venue)} />}
+    {entry.venue && (
+      <p class="wi__venue meta" set:html={emphasize(entry.venue)} />
+    )}
+    {entry.status && <p class="wi__status">{entry.status}</p>}
     {entry.detail && <p class="wi__detail">{entry.detail}</p>}
     {entry.project && (
       <p class="wi__link">
@@ -61,6 +81,26 @@ const previewAttributes = preview
   .wi__authors,
   .wi__venue {
     margin-top: 0.3rem;
+  }
+
+  /* Status reads as a quiet academic label, not a product badge. */
+  .wi__status {
+    display: inline-block;
+    margin-top: 0.45rem;
+    padding: 0.14rem 0.5rem;
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+    border-radius: 2px;
+    color: var(--ink-2);
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+  }
+
+  .wi__ext {
+    display: inline-block;
+    margin-left: 0.25rem;
+    font-size: 0.85em;
   }
 
   .wi__detail {

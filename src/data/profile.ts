@@ -15,10 +15,12 @@ export const site = {
 
 export const hero = {
   eyebrow: "Undergraduate researcher · University of Florida",
-  question: "Why do similar biological systems respond differently to the same perturbation?",
+  question:
+    "Why do similar biological systems respond differently to the same perturbation?",
   supporting:
     "I study how those divergent states can be measured well enough to support biological and therapeutic decisions. My current work focuses on cancer treatment response, clonal evolution, and interpretable transcriptomic response scoring, grounded in experimental biology.",
-  identity: "Biology & Chemistry · Bioinformatics & Statistics · Expected May 2027",
+  identity:
+    "Biology & Chemistry · Bioinformatics & Statistics · Expected May 2027",
 };
 
 export const currentResearchIntro =
@@ -39,7 +41,10 @@ export const aboutNarrative = [
 
 export const education = {
   institution: "University of Florida",
-  degrees: ["B.S. Pre-professional Biology", "B.S. Chemistry, Biochemistry Emphasis"],
+  degrees: [
+    "B.S. Pre-professional Biology",
+    "B.S. Chemistry, Biochemistry Emphasis",
+  ],
   minors: "Minors: Bioinformatics and Statistics",
   expected: "Expected May 2027",
   gpa: "GPA 3.99 / 4.00",

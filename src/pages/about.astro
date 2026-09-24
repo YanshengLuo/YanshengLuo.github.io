@@ -1,82 +1,423 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import SocialLinks from "../components/SocialLinks.astro";
 import PageHeader from "../components/PageHeader.astro";
-import OutsideResearch from "../components/OutsideResearch.astro";
+import Fieldnotes from "../components/Fieldnotes.astro";
 import ImageDialog from "../components/ImageDialog.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+import portrait from "../assets/profile/portrait.webp";
 import { aboutNarrative, education, teaching } from "../data/profile";
+import { chronology } from "../data/journey";
 import { emphasize } from "../utils/format";
 ---
-<BaseLayout title="About | Yansheng Luo" description="Yansheng Luo studies biology and chemistry at the University of Florida, with minors in bioinformatics and statistics, and works across experimental biology, genomics, and translational cancer research.">
-  <div class="container about">
+
+<BaseLayout
+  title="About | Yansheng Luo"
+  description="Yansheng Luo's path from experimental regeneration biology to quantitative genomics and translational cancer research, with education, teaching, and life outside the lab."
+>
+  <div class="container about-page">
     <PageHeader
       index="03"
       section="About"
-      title="About"
-      lede="The person behind the research: research path, education, teaching, and life outside the lab."
-      accent="#3c6657"
+      title="Curiosity, grounded in biology."
+      lede="An undergraduate researcher at the University of Florida, working between the experimental bench and quantitative analysis."
       facts={[
-        { label: "Current focus", value: "Translational oncology" },
-        { label: "Research groups", value: "Maden Lab · Song Lab · MD Anderson ITERT" },
-        { label: "Outside research", value: "Diving · photography · outreach" },
+        {
+          label: "Current focus",
+          value: "Translational oncology · treatment response",
+        },
+        {
+          label: "Training",
+          value: "Biology · chemistry · bioinformatics · statistics",
+        },
+        { label: "Based at", value: "University of Florida" },
       ]}
+    />
+
+    <section
+      class="about-intro"
+      id="research-path"
+      aria-labelledby="research-path-title"
     >
-      <nav class="page-jump" aria-label="About sections">
-        <a href="#research-path">Research path</a>
-        <a href="#education">Education</a>
-        <a href="#teaching">Teaching</a>
-        <a href="#outside">Outside research</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </PageHeader>
-    <section class="about__block about__block--lead" id="research-path" aria-labelledby="research-path-title">
-      <div class="about__rail"><span>01</span><h2 id="research-path-title">Research path</h2></div>
-      <div class="about__prose about__prose--lead">
-        {aboutNarrative.map((paragraph) => <p set:html={emphasize(paragraph)} />)}
+      <div class="about-intro__label">
+        <p>Research path</p>
+        <h2 id="research-path-title">
+          From observing differences to testing what they mean.
+        </h2>
       </div>
+      <div class="about-narrative">
+        {aboutNarrative.map((paragraph) => (
+          <p set:html={emphasize(paragraph)} />
+        ))}
+      </div>
+      <figure class="about-portrait">
+        <Image
+          src={portrait}
+          alt="Yansheng Luo."
+          widths={[400, 650]}
+          sizes="(max-width: 48rem) 78vw, 310px"
+        />
+        <figcaption>Yansheng Luo · University of Florida</figcaption>
+      </figure>
     </section>
-    <div class="about__facts">
-      <section class="about__block" id="education" aria-labelledby="education-title">
-        <div class="about__rail"><span>02</span><h2 id="education-title">Education</h2></div>
-        <div class="about__prose">
-          <p class="about__school">{education.institution}</p>
-          <p class="about__degrees">{education.degrees.join(" · ")}<br />{education.minors}</p>
-          <p class="meta">{education.expected} · {education.gpa}</p>
+
+    <section
+      class="trajectory"
+      id="throughline"
+      aria-labelledby="trajectory-title"
+    >
+      <header class="section-heading">
+        <p>Research trajectory</p>
+        <h2 id="trajectory-title">A question that carries.</h2>
+      </header>
+      <ol class="timeline">
+        {chronology.map((item, index) => (
+          <li>
+            <div class="timeline__marker" aria-hidden="true">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+            </div>
+            <p class="timeline__time">{item.time}</p>
+            <div class="timeline__body">
+              <h3>
+                {"href" in item ? (
+                  <a href={item.href}>{item.name}</a>
+                ) : (
+                  item.name
+                )}
+              </h3>
+              <p>{item.role}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <div class="about-facts">
+      <header class="academic-heading">
+        <p class="fact-index">Academic record</p>
+        <h2>Learning, then passing it on.</h2>
+      </header>
+      <section id="education" aria-labelledby="education-title">
+        <p class="fact-index">01 / Education</p>
+        <h2 id="education-title">{education.institution}</h2>
+        <div class="fact-body">
+          <ul class="degree-list">
+            {education.degrees.map((degree) => (
+              <li>{degree}</li>
+            ))}
+          </ul>
+          <p>{education.minors}</p>
+          <dl class="academic-meta">
+            <div>
+              <dt>Graduation</dt>
+              <dd>{education.expected}</dd>
+            </div>
+            <div>
+              <dt>Academic standing</dt>
+              <dd>{education.gpa}</dd>
+            </div>
+          </dl>
         </div>
       </section>
-      <section class="about__block" id="teaching" aria-labelledby="teaching-title">
-        <div class="about__rail"><span>03</span><h2 id="teaching-title">Teaching &amp; mentorship</h2></div>
-        <div class="about__prose"><p>{teaching}</p></div>
+      <section id="teaching" aria-labelledby="teaching-title">
+        <p class="fact-index">02 / Teaching & mentorship</p>
+        <h2 id="teaching-title">Learning through explanation.</h2>
+        <div class="fact-body">
+          <p>{teaching}</p>
+          <a class="text-link" href="/work/#teaching">
+            Teaching record <span aria-hidden="true">→</span>
+          </a>
+        </div>
       </section>
     </div>
-    <OutsideResearch />
-    <section class="about__block about__contact" id="contact" aria-labelledby="contact-title">
-      <div class="about__rail"><span>04</span><h2 id="contact-title">Contact</h2></div>
-      <div class="about__prose"><SocialLinks /></div>
-    </section>
   </div>
+
+  <div class="container about-fieldnotes">
+    <Fieldnotes />
+  </div>
+
+  <section class="about-contact" id="contact" aria-labelledby="contact-title">
+    <div class="container about-contact__inner">
+      <div>
+        <p>Contact</p>
+        <h2 id="contact-title">Let’s talk about the work.</h2>
+      </div>
+      <SocialLinks variant="compact" />
+    </div>
+  </section>
   <ImageDialog />
 </BaseLayout>
+
 <style>
-  .about { padding-bottom: var(--space-section); }
-  .about__block { display: grid; gap: 1.5rem 3rem; padding-block: clamp(2.5rem, 4vw, 4rem); border-bottom: 1px solid var(--border); }
-  .about__rail { display: flex; align-items: baseline; gap: 1rem; }
-  .about__rail span { color: #3c6657; font-size: .72rem; font-weight: 700; }
-  .about__rail h2 { font-size: .9rem; font-weight: 650; letter-spacing: .01em; }
-  .about__prose { display: grid; align-content: start; gap: 1rem; max-width: 650px; }
-  /* Research path: one lead paragraph at a moderate display size, then body text. */
-  .about__prose--lead { max-width: 960px; gap: 1.25rem 3rem; font-size: clamp(1.05rem, 1.25vw, 1.15rem); line-height: 1.68; }
-  .about__prose--lead p { color: var(--ink-2); }
-  .about__prose--lead p:first-child { max-width: 42em; color: var(--text); font-size: clamp(1.3rem, 1.85vw, 1.6rem); line-height: 1.45; letter-spacing: -.018em; }
-  .about__school { font-size: 1.1rem; font-weight: 600; }
-  .about__degrees { color: var(--muted); }
-  .about__facts { display: grid; gap: 3rem; }
-  @media (min-width: 1200px) {
-    .about__block { grid-template-columns: minmax(0, 2fr) minmax(0, 10fr); }
-    /* The two follow-on paragraphs share the width beneath the lead. */
-    .about__prose--lead { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .about__prose--lead p:first-child { grid-column: 1 / -1; margin-bottom: .5rem; }
-    .about__facts { grid-template-columns: 1fr 1fr; }
-    .about__facts .about__block { grid-template-columns: 1fr; }
+  .about-page {
+    padding-bottom: clamp(3rem, 6vw, 5.5rem);
+  }
+  .about-intro {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    padding-block: clamp(3.5rem, 7vw, 7rem);
+    border-bottom: 1px solid var(--border);
+  }
+  .about-intro__label > p,
+  .section-heading > p,
+  .fact-index,
+  .about-contact__inner > div > p {
+    margin-bottom: 0.85rem;
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+  }
+  .about-intro__label h2 {
+    max-width: 26ch;
+    font-size: clamp(1.8rem, 3.2vw, 3rem);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+  }
+  .about-narrative {
+    max-width: 46rem;
+  }
+  .about-narrative p {
+    color: var(--ink-2);
+    font-size: clamp(1.03rem, 1.25vw, 1.15rem);
+    line-height: 1.72;
+  }
+  .about-narrative p + p {
+    margin-top: 1.35rem;
+  }
+  .about-portrait {
+    align-self: start;
+  }
+  .about-portrait img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    box-shadow: none;
+  }
+  .about-portrait figcaption {
+    margin-top: 0.7rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+
+  .trajectory {
+    padding-block: clamp(3rem, 6vw, 5rem);
+    border-bottom: 1px solid var(--border);
+  }
+  .section-heading {
+    display: grid;
+    gap: 0.3rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading h2 {
+    max-width: 16ch;
+    font-size: clamp(2rem, 3.5vw, 3.25rem);
+    letter-spacing: -0.04em;
+  }
+  .timeline {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .timeline li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3rem 8rem minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 2.5rem);
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .timeline li:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+  .timeline__marker {
+    position: relative;
+    color: var(--accent);
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+  .timeline__marker::after {
+    content: "";
+    position: absolute;
+    top: 1.65rem;
+    bottom: -1.5rem;
+    left: 0.45rem;
+    width: 1px;
+    background: var(--line);
+  }
+  .timeline li:last-child .timeline__marker::after {
+    display: none;
+  }
+  .timeline__time {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .timeline__body h3 {
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  }
+  .timeline__body h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .timeline__body h3 a:hover {
+    color: var(--accent);
+  }
+  .timeline__body p {
+    max-width: 52rem;
+    margin-top: 0.5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .about-facts {
+    display: grid;
+    gap: 2.5rem;
+    padding-block: clamp(3rem, 6vw, 5rem);
+    border-bottom: 1px solid var(--border);
+  }
+  .about-facts section {
+    min-width: 0;
+    padding: 1.5rem 0 0;
+    border-top: 2px solid var(--accent);
+  }
+  .about-facts h2 {
+    max-width: 18ch;
+    font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+    letter-spacing: -0.025em;
+  }
+  .fact-body {
+    margin-top: 1.5rem;
+    color: var(--ink-2);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+  .fact-body p + p {
+    margin-top: 0.4rem;
+  }
+  .academic-meta {
+    margin-top: 1.25rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .fact-body .text-link {
+    margin-top: 1.25rem;
+    font-size: 0.82rem;
+  }
+
+  .about-fieldnotes {
+    padding-block: clamp(1rem, 3vw, 3rem);
+  }
+  .about-contact {
+    background: var(--accent-light);
+    border-top: 1px solid var(--line);
+  }
+  .about-contact__inner {
+    display: grid;
+    gap: 2rem;
+    align-items: end;
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+  }
+  .about-contact h2 {
+    max-width: 15ch;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    letter-spacing: -0.045em;
+  }
+
+  @media (min-width: 60rem) {
+    .about-intro {
+      grid-template-columns: minmax(0, 1.7fr) minmax(15rem, 0.8fr);
+      align-items: start;
     }
+    .section-heading {
+      grid-template-columns: 1fr 1.7fr;
+      align-items: end;
+    }
+    .section-heading > p {
+      margin: 0;
+    }
+    .about-facts {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      column-gap: clamp(3rem, 7vw, 7rem);
+    }
+    .about-contact__inner {
+      grid-template-columns: 1.4fr 1fr;
+    }
+  }
+  @media (min-width: 48rem) and (max-width: 59.99rem) {
+    .about-intro {
+      grid-template-columns: minmax(0, 1fr) 15rem;
+    }
+    .about-intro__label {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 47.99rem) {
+    .about-portrait {
+      width: min(80%, 22rem);
+    }
+    .timeline li {
+      grid-template-columns: 2.2rem minmax(0, 1fr);
+      gap: 0.8rem 1rem;
+    }
+    .timeline__time {
+      grid-column: 2;
+    }
+    .timeline__body {
+      grid-column: 2;
+    }
+    .timeline__marker {
+      grid-row: 1 / span 2;
+    }
+  }
+
+  .academic-heading {
+    grid-column: 1 / -1;
+  }
+  .academic-heading h2 {
+    max-width: 24ch;
+    font-size: clamp(1.9rem, 3vw, 2.75rem);
+  }
+  .degree-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+  }
+  .degree-list li {
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+  }
+  .academic-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    margin-top: 1.5rem;
+  }
+  .academic-meta dt {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+  .academic-meta dd {
+    margin: 0.3rem 0 0;
+    color: var(--ink-2);
+    font-size: 0.8rem;
+  }
+  @media (min-width: 60rem) {
+    .about-intro__label {
+      grid-column: 1 / -1;
+    }
+    .about-narrative {
+      max-width: 66ch;
+    }
+    .about-portrait {
+      margin-top: 0.35rem;
+    }
+  }
 </style>

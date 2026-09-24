@@ -15,18 +15,22 @@ const chapters = [
 ---
 
 <nav class="rail" aria-label="Page sections" data-chapter-rail>
-  <span class="rail__track" aria-hidden="true"><span class="rail__progress" data-rail-progress></span></span>
+  <span class="rail__track" aria-hidden="true">
+    <span class="rail__progress" data-rail-progress></span>
+  </span>
   <ul>
-    {
-      chapters.map((chapter) => (
-        <li>
-          <a href={`#${chapter.id}`} data-rail-link={chapter.id} data-accent={chapter.accent}>
-            <span class="rail__label">{chapter.label}</span>
-            <span class="rail__node" aria-hidden="true" />
-          </a>
-        </li>
-      ))
-    }
+    {chapters.map((chapter) => (
+      <li>
+        <a
+          href={`#${chapter.id}`}
+          data-rail-link={chapter.id}
+          data-accent={chapter.accent}
+        >
+          <span class="rail__label">{chapter.label}</span>
+          <span class="rail__node" aria-hidden="true" />
+        </a>
+      </li>
+    ))}
   </ul>
 </nav>
 
@@ -146,7 +150,8 @@ const chapters = [
     .rail a[aria-current] .rail__node {
       border-color: var(--rail-accent);
       background: var(--rail-accent);
-      box-shadow: 0 0 0 5px color-mix(in srgb, var(--rail-accent) 13%, transparent);
+      box-shadow: 0 0 0 5px
+        color-mix(in srgb, var(--rail-accent) 13%, transparent);
       transform: scale(1.12);
     }
 

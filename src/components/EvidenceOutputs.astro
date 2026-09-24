@@ -1,0 +1,173 @@
+---
+// Concrete research artifacts for one project. Links appear only where a real
+// public URL exists in the project's frontmatter; otherwise the item shows its
+// state instead, so nothing implies an artifact that cannot be opened.
+import type { CollectionEntry } from "astro:content";
+import { emphasize } from "../utils/format";
+
+interface Props {
+  outputs: CollectionEntry<"research">["data"]["outputs"];
+}
+
+const { outputs } = Astro.props;
+---
+
+<section class="evid" id="evidence" aria-labelledby="evidence-title">
+  <header class="evid__head">
+    <h2 id="evidence-title">Evidence &amp; outputs</h2>
+    <p>What exists publicly from this project, and what does not yet.</p>
+  </header>
+  <ol class="evid__list">
+    {outputs.map((output) => (
+      <li class="evid__item">
+        <p class="evid__type">{output.type}</p>
+        <div class="evid__body">
+          <h3 class="evid__title">
+            {output.href ? (
+              <a href={output.href} rel="noopener" target="_blank">
+                <span set:html={emphasize(output.title)} />
+                <span class="evid__ext" aria-hidden="true">
+                  ↗
+                </span>
+                <span class="visually-hidden">(opens in a new tab)</span>
+              </a>
+            ) : (
+              <span set:html={emphasize(output.title)} />
+            )}
+          </h3>
+          {output.venue && (
+            <p class="evid__venue" set:html={emphasize(output.venue)} />
+          )}
+          <p class="evid__state">
+            {output.date && <span class="evid__date">{output.date}</span>}
+            <span>{output.state}</span>
+          </p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .evid {
+    max-width: 1030px;
+    margin: clamp(3.5rem, 6vw, 5.5rem) auto 0;
+    padding-top: 0.9rem;
+    border-top: 2px solid var(--project-accent);
+  }
+
+  .evid__head h2 {
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    letter-spacing: -0.035em;
+  }
+
+  .evid__head p {
+    margin-top: 0.4rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .evid__list {
+    margin: 1.75rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .evid__item {
+    display: grid;
+    gap: 0.35rem 2.5rem;
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .evid__type {
+    color: var(--project-accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .evid__body {
+    max-width: 66ch;
+    min-width: 0;
+  }
+
+  .evid__title {
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    font-weight: 600;
+    line-height: 1.38;
+  }
+
+  .evid__title a {
+    display: inline;
+    color: var(--text);
+    text-decoration-color: color-mix(
+      in srgb,
+      var(--project-accent) 45%,
+      transparent
+    );
+  }
+
+  .evid__title a:hover {
+    color: var(--project-accent);
+    text-decoration-color: currentColor;
+  }
+
+  .evid__ext {
+    display: inline-block;
+    margin-left: 0.3rem;
+    color: var(--project-accent);
+    font-size: 0.85em;
+    transition: transform var(--motion-micro) var(--motion-ease);
+  }
+
+  .evid__title a:hover .evid__ext,
+  .evid__title a:focus-visible .evid__ext {
+    transform: translate(2px, -2px);
+  }
+
+  .evid__venue {
+    margin-top: 0.3rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .evid__state {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    color: var(--ink-2);
+    font-size: 0.82rem;
+  }
+
+  .evid__date {
+    padding: 0.16rem 0.5rem;
+    border: 1px solid
+      color-mix(in srgb, var(--project-accent) 30%, var(--border));
+    border-radius: 3px;
+    color: var(--project-accent);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  @media (min-width: 60rem) {
+    .evid__item {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .evid__ext {
+      transition: none;
+    }
+
+    .evid__title a:hover .evid__ext,
+    .evid__title a:focus-visible .evid__ext {
+      transform: none;
+    }
+  }
+</style>

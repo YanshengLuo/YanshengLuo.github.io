@@ -3,8 +3,8 @@ import SocialLinks from "./SocialLinks.astro";
 import { site } from "../data/profile";
 
 const nav = [
-  { label: "Research", href: "/#throughline" },
-  { label: "Work", href: "/work/" },
+  { label: "Research", href: "/research/" },
+  { label: "Work & Outputs", href: "/work/" },
   { label: "About", href: "/about/" },
   { label: "CV", href: "/cv/" },
 ];
@@ -15,20 +15,29 @@ const nav = [
     <div class="site-footer__id">
       <p class="site-footer__name">Yansheng Luo</p>
       <p class="site-footer__tag">
-        Undergraduate researcher at the University of Florida working on treatment response,
-        clonal evolution, and interpretable measurements of biological state.
+        Undergraduate researcher at the University of Florida working on
+        treatment response, clonal evolution, and interpretable measurements of
+        biological state.
       </p>
     </div>
 
     <nav class="site-footer__nav" aria-labelledby="footer-site">
-      <p class="footer-label" id="footer-site">Site</p>
+      <p class="footer-label" id="footer-site">
+        Site
+      </p>
       <ul>
-        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        {nav.map((item) => (
+          <li>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))}
       </ul>
     </nav>
 
     <div class="site-footer__contact">
-      <p class="footer-label" id="footer-contact">Contact</p>
+      <p class="footer-label" id="footer-contact">
+        Contact
+      </p>
       <div aria-labelledby="footer-contact" role="group">
         <SocialLinks />
       </div>
@@ -101,7 +110,7 @@ const nav = [
   .site-footer__tag {
     max-width: 36ch;
     margin-top: 0.75rem;
-    color: var(--muted);
+    color: #8197a6;
     font-size: 0.95rem;
   }
 
@@ -128,7 +137,7 @@ const nav = [
 
   .site-footer__base {
     padding-block: 1.25rem 2rem;
-    color: var(--muted);
+    color: #8197a6;
     font-size: 0.85rem;
   }
 

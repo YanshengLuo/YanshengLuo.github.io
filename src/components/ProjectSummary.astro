@@ -1,0 +1,165 @@
+---
+// Compact, restrained summary panel at the head of each research page.
+// Every field comes from the project's frontmatter, which follows the CV.
+import type { CollectionEntry } from "astro:content";
+import { emphasize } from "../utils/format";
+
+interface Props {
+  data: CollectionEntry<"research">["data"];
+}
+
+const { data } = Astro.props;
+---
+
+<section class="psum" aria-labelledby="psum-title">
+  <h2 class="psum__heading" id="psum-title">
+    Project summary
+  </h2>
+  <dl class="psum__grid">
+    <div class="psum__row psum__row--lead">
+      <dt>Research question</dt>
+      <dd set:html={emphasize(data.question)} />
+    </div>
+    <div class="psum__row">
+      <dt>My role</dt>
+      <dd set:html={emphasize(data.role)} />
+    </div>
+    <div class="psum__row">
+      <dt>Methods</dt>
+      <dd>
+        <ul class="psum__tags">
+          {data.methods.map((method) => (
+            <li>{method}</li>
+          ))}
+        </ul>
+      </dd>
+    </div>
+    {data.scale && (
+      <div class="psum__row">
+        <dt>Scale &amp; data</dt>
+        <dd>
+          <ul class="psum__scale">
+            {data.scale.map((item) => {
+              const [value, ...rest] = item.split(" — ");
+              return (
+                <li>
+                  <b>{value}</b>
+                  <span>{rest.join(" — ")}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </dd>
+      </div>
+    )}
+    <div class="psum__row">
+      <dt>Output &amp; status</dt>
+      <dd>{data.status}</dd>
+    </div>
+  </dl>
+</section>
+
+<style>
+  .psum {
+    max-width: 1030px;
+    margin: clamp(2.5rem, 5vw, 4rem) auto 0;
+    padding-top: 0.9rem;
+    border-top: 2px solid var(--project-accent);
+  }
+
+  .psum__heading {
+    color: var(--project-accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+  }
+
+  .psum__grid {
+    display: grid;
+    gap: 0;
+    margin-top: 1.25rem;
+  }
+
+  .psum__row {
+    display: grid;
+    gap: 0.35rem 2.5rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .psum__row:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .psum__row dt {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .psum__row dd {
+    margin: 0;
+    max-width: 68ch;
+    min-width: 0;
+    line-height: 1.55;
+  }
+
+  .psum__row--lead dd {
+    font-size: clamp(1.12rem, 1.5vw, 1.35rem);
+    font-weight: 550;
+    letter-spacing: -0.02em;
+    line-height: 1.38;
+  }
+
+  .psum__tags,
+  .psum__scale {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .psum__tags li {
+    padding: 0.2rem 0.65rem 0.2rem 0;
+    border-right: 1px solid var(--border);
+    color: var(--ink-2);
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .psum__scale {
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .psum__scale li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .psum__scale b {
+    color: var(--project-accent);
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+
+  .psum__scale span {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  @media (min-width: 60rem) {
+    .psum__row {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    }
+  }
+</style>

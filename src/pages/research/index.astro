@@ -1,0 +1,232 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ResearchLens from "../../components/ResearchLens.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import { researchRoute } from "../../data/research";
+import { emphasize } from "../../utils/format";
+
+const projects = (await getCollection("research")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const tiers: Record<string, string> = {
+  primary: "Primary research",
+  foundation: "Experimental foundation",
+  supporting: "Complementary quantitative work",
+};
+const accents: Record<string, string> = {
+  pdac: "var(--pdac)",
+  imrs: "var(--imrs)",
+  regeneration: "var(--acomys)",
+  "protein-design": "var(--protein)",
+};
+---
+
+<BaseLayout
+  title="Research | Yansheng Luo"
+  description="Explore Yansheng Luo's research in PDAC clonal evolution, transcriptomic response scoring, Acomys regeneration, and computational protein design."
+>
+  <div class="container research-page">
+    <PageHeader
+      index="01"
+      section="Research"
+      title="Different systems. A shared question."
+      lede="Why do similar biological systems respond differently to the same perturbation? Four projects approach that question through treatment history, gene expression, tissue repair, and candidate prioritization."
+      facts={[
+        { label: "Current", value: "PDAC clonal evolution · IMRS" },
+        { label: "Foundation", value: "Acomys regeneration biology" },
+        {
+          label: "Methods",
+          value: "Experimental · computational · translational",
+        },
+      ]}
+    />
+
+    <ResearchLens />
+
+    <section class="research-directory" aria-labelledby="directory-title">
+      <header class="directory-head">
+        <p>Project directory</p>
+        <h2 id="directory-title">Four chapters in one research path.</h2>
+      </header>
+
+      <div class="project-grid">
+        {projects.map((entry, index) => (
+          <article
+            class="project-card"
+            style={`--project-accent: ${accents[entry.id]}`}
+          >
+            <div class="project-card__meta">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <span>{tiers[entry.data.tier]}</span>
+            </div>
+            <p class="project-card__context">{entry.data.projectMeta}</p>
+            <h3>
+              <a
+                href={researchRoute(entry.id)}
+                set:html={emphasize(entry.data.title)}
+              />
+            </h3>
+            <p
+              class="project-card__question"
+              set:html={emphasize(entry.data.question)}
+            />
+            <ul class="project-card__methods" aria-label="Methods">
+              {entry.data.methods.slice(0, 4).map((method) => (
+                <li>{method}</li>
+              ))}
+            </ul>
+            <p class="project-card__status">{entry.data.status}</p>
+            <a class="project-card__link" href={researchRoute(entry.id)}>
+              Read project <span aria-hidden="true">→</span>
+            </a>
+          </article>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .research-page {
+    padding-bottom: var(--section-y);
+  }
+  .research-directory {
+    padding-top: clamp(3.5rem, 7vw, 7rem);
+  }
+  .directory-head {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+  .directory-head > p {
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+  }
+  .directory-head h2 {
+    max-width: 17ch;
+    font-size: clamp(2rem, 3.8vw, 3.5rem);
+    letter-spacing: -0.045em;
+  }
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 3rem;
+    border-top: 1px solid var(--border);
+  }
+  .project-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding: 1.75rem 0 2rem 1.25rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.86);
+
+    border-bottom: 1px solid var(--border);
+  }
+  .project-card::before {
+    content: "";
+    position: absolute;
+    inset: 1.8rem auto auto 0;
+    height: 2.5rem;
+    width: 4px;
+    background: var(--project-accent);
+  }
+  .project-card__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--muted);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .project-card__meta span:first-child {
+    color: var(--project-accent);
+  }
+  .project-card__context {
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 600;
+  }
+  .project-card h3 {
+    margin-top: 0.75rem;
+    font-size: clamp(1.45rem, 2.3vw, 2rem);
+    letter-spacing: -0.035em;
+  }
+  .project-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .project-card h3 a:hover {
+    color: var(--project-accent);
+  }
+  .project-card__question {
+    max-width: 38rem;
+    margin-top: 1rem;
+    color: var(--ink-2);
+    font-size: 0.95rem;
+    line-height: 1.62;
+  }
+  .project-card__methods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .project-card__methods li {
+    padding: 0.15rem 0.65rem 0.15rem 0;
+    border-right: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.66rem;
+    line-height: 1.35;
+  }
+  .project-card__status {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+  .project-card__link {
+    align-self: flex-start;
+    margin-top: 1.15rem;
+    color: var(--project-accent);
+    font-size: 0.82rem;
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .project-card__link span {
+    display: inline-block;
+    transition: transform var(--motion-micro) var(--motion-ease);
+  }
+  .project-card__link:hover span {
+    transform: translateX(0.25rem);
+  }
+
+  @media (max-width: 47.99rem) {
+    .project-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .project-card {
+      min-height: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .project-card__link span {
+      transition: none;
+    }
+    .project-card__link:hover span {
+      transform: none;
+    }
+  }
+</style>

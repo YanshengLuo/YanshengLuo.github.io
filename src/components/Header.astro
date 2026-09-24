@@ -1,7 +1,7 @@
 ---
 const items = [
-  { label: "Research", href: "/#throughline" },
-  { label: "Work", href: "/work/" },
+  { label: "Research", href: "/research/" },
+  { label: "Work & Outputs", href: "/work/" },
   { label: "About", href: "/about/" },
   { label: "CV", href: "/cv/" },
 ];
@@ -10,37 +10,41 @@ const path = Astro.url.pathname;
 // The homepage opens with a photographic hero, so the header sits over it
 // transparently until the page is scrolled.
 const overlay = path === "/";
-// Research is a homepage anchor; project pages count as being "in" Research.
-const current = (href: string) =>
-  href === "/#throughline"
-    ? path.startsWith("/research/")
-      ? "true"
-      : undefined
-    : path.startsWith(href)
-      ? "page"
-      : undefined;
+const current = (href: string) => (path.startsWith(href) ? "page" : undefined);
 ---
 
-<header class:list={["site-header", overlay && "site-header--overlay"]} data-site-header>
+<header
+  class:list={["site-header", overlay && "site-header--overlay"]}
+  data-site-header
+>
   <div class="container site-header__inner">
-    <a class="site-header__name" href="/">Yansheng Luo</a>
+    <a class="site-header__name" href="/">
+      Yansheng Luo
+    </a>
 
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
-      <span class="nav-toggle__icon" aria-hidden="true"><span></span><span></span></span>
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      data-nav-toggle
+    >
+      <span class="nav-toggle__icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+      </span>
       <span data-nav-label>Menu</span>
     </button>
 
     <nav id="site-nav" class="site-nav" aria-label="Primary">
       <ul>
-        {
-          items.map((item) => (
-            <li>
-              <a href={item.href} aria-current={current(item.href)}>
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
+        {items.map((item) => (
+          <li>
+            <a href={item.href} aria-current={current(item.href)}>
+              {item.label}
+            </a>
+          </li>
+        ))}
       </ul>
     </nav>
   </div>
@@ -71,7 +75,7 @@ const current = (href: string) =>
     color: #fff;
   }
 
-  .site-header--overlay :global(.nav-toggle) {
+  .site-header--overlay .nav-toggle {
     color: #fff;
   }
 
@@ -98,8 +102,8 @@ const current = (href: string) =>
     color: var(--accent);
   }
 
-  .site-header--overlay:global(.is-scrolled) :global(.nav-toggle),
-  .site-header--overlay:global(.menu-open) :global(.nav-toggle) {
+  .site-header--overlay:global(.is-scrolled) .nav-toggle,
+  .site-header--overlay:global(.menu-open) .nav-toggle {
     color: var(--text);
   }
 

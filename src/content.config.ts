@@ -21,6 +21,34 @@ const research = defineCollection({
     label: z.string(),
     /** Compact date · institution line used on the homepage row. */
     homeMeta: z.string(),
+    /** Institution · period, shown in the project directory and summary panel. */
+    projectMeta: z.string(),
+    /** One-sentence scientific question, shown in the project directory and summary panel. */
+    question: z.string(),
+    /** One sentence distinguishing Yansheng's contribution from the wider team project. */
+    role: z.string(),
+    /** Method tags displayed alongside the project summary. */
+    methods: z.array(z.string()).min(2),
+    /** Real quantitative facts only, written "<value> — <label>". Omitted where none is useful. */
+    scale: z.array(z.string()).optional(),
+    /** Compact output/status line (accepted publication, prepared for submission, ongoing work). */
+    status: z.string(),
+    /**
+     * Concrete research artifacts. `href` is set only where a real public URL exists;
+     * otherwise the item shows its state instead of a link.
+     */
+    outputs: z
+      .array(
+        z.object({
+          type: z.string(),
+          title: z.string(),
+          venue: z.string().optional(),
+          date: z.string().optional(),
+          state: z.string(),
+          href: z.string().startsWith("https://").optional(),
+        }),
+      )
+      .min(1),
     /** Homepage description (2–3 sentences). */
     summary: z.string(),
     /** Opening paragraph on the project page. */

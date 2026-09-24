@@ -8,11 +8,20 @@ import { site } from "../data/profile";
 import { EMAIL, links } from "../data/social";
 
 // File facts are read from the published PDF at build time, so they stay correct when the CV is replaced.
-const pdf = readFileSync(path.join(process.cwd(), "public", site.cvPath)).toString("latin1");
+const pdf = readFileSync(
+  path.join(process.cwd(), "public", site.cvPath),
+).toString("latin1");
 const sizeKb = Math.round(pdf.length / 1024);
 const pageCount =
-  Number(pdf.match(/\/Type\s*\/Pages[^>]*?\/Count\s+(\d+)/)?.[1]) || (pdf.match(/\/Type\s*\/Page(?![s\w])/g) ?? []).length;
-const fileSummary = ["PDF", pageCount ? `${pageCount} pages` : "", `${sizeKb} KB`].filter(Boolean).join(" · ");
+  Number(pdf.match(/\/Type\s*\/Pages[^>]*?\/Count\s+(\d+)/)?.[1]) ||
+  (pdf.match(/\/Type\s*\/Page(?![s\w])/g) ?? []).length;
+const fileSummary = [
+  "PDF",
+  pageCount ? `${pageCount} pages` : "",
+  `${sizeKb} KB`,
+]
+  .filter(Boolean)
+  .join(" · ");
 ---
 
 <BaseLayout
@@ -34,7 +43,13 @@ const fileSummary = ["PDF", pageCount ? `${pageCount} pages` : "", `${sizeKb} KB
     >
       <div class="cv__actions">
         <Button href={site.cvPath}>Open PDF</Button>
-        <Button href={site.cvPath} variant="plain" download="Yansheng_Luo_CV.pdf">Download PDF</Button>
+        <Button
+          href={site.cvPath}
+          variant="plain"
+          download="Yansheng_Luo_CV.pdf"
+        >
+          Download PDF
+        </Button>
       </div>
     </PageHeader>
 
@@ -47,8 +62,8 @@ const fileSummary = ["PDF", pageCount ? `${pageCount} pages` : "", `${sizeKb} KB
     </div>
 
     <p class="cv__fallback">
-      {fileSummary}. If the preview does not display, <a href={site.cvPath}>open the CV as a PDF</a
-      >.
+      {fileSummary}. If the preview does not display,{" "}
+      <a href={site.cvPath}>open the CV as a PDF</a>.
     </p>
   </section>
 </BaseLayout>

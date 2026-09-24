@@ -4,7 +4,12 @@ import banner from "../assets/hero/poster-banner.webp";
 import { hero } from "../data/profile";
 import { links } from "../data/social";
 
-const pills = ["Translational oncology", "Biology & Chemistry", "Bioinformatics & Statistics", "Expected May 2027"];
+const pills = [
+  "Translational oncology",
+  "Biology & Chemistry",
+  "Bioinformatics & Statistics",
+  "Expected May 2027",
+];
 ---
 
 <section class="hero" id="home" data-chapter="home" aria-labelledby="hero-name">
@@ -22,43 +27,75 @@ const pills = ["Translational oncology", "Biology & Chemistry", "Bioinformatics 
   <div class="container hero__inner">
     <div class="hero__copy">
       <p class="hero__kicker">{hero.eyebrow}</p>
-      <h1 class="hero__name" id="hero-name">Yansheng<br />Luo</h1>
+      <h1 class="hero__name" id="hero-name">
+        Yansheng
+        <br />
+        Luo
+      </h1>
       <p class="hero__question">{hero.question}</p>
       <p class="hero__desc">{hero.supporting}</p>
       <ul class="hero__pills">
-        {
-          pills.map((pill, i) => (
-            <li>
-              {i === 0 && <i class="hero__dot" aria-hidden="true" />}
-              {pill}
-            </li>
-          ))
-        }
+        {pills.map((pill, i) => (
+          <li>
+            {i === 0 && <i class="hero__dot" aria-hidden="true" />}
+            {pill}
+          </li>
+        ))}
       </ul>
       <div class="hero__actions">
-        <a class="hero__btn hero__btn--solid" href="#throughline">Explore research <span aria-hidden="true">→</span></a>
-        <a class="hero__btn" href="/cv/">View CV</a>
-        <a class="hero__btn" href={links.email}>Email</a>
+        <a class="hero__btn hero__btn--solid" href="#throughline">
+          Explore research <span aria-hidden="true">→</span>
+        </a>
+        <a class="hero__btn" href="/cv/">
+          View CV
+        </a>
+        <a class="hero__btn" href={links.email}>
+          Email
+        </a>
       </div>
     </div>
 
     <aside class="hero__notes">
-      <p><strong>Currently</strong>Building toward translational oncology and precision medicine.</p>
-      <p><strong>Research mode</strong>Question, measurement, robustness, then biological interpretation.</p>
+      <p>
+        <strong>Currently</strong>Building toward translational oncology and
+        precision medicine.
+      </p>
+      <p>
+        <strong>Research mode</strong>Question, measurement, robustness, then
+        biological interpretation.
+      </p>
     </aside>
   </div>
 
   <p class="hero__fieldnote" aria-hidden="true">
-    <span>Field note 00</span><strong>At the poster</strong><span>University of Florida</span>
+    <span>Field note 00</span>
+    <strong>At the poster</strong>
+    <span>University of Florida</span>
   </p>
 
   <div class="hero__curve">
-    <svg viewBox="0 0 1440 126" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <path d="M0 58 C210 110 360 14 572 56 S930 112 1100 50 S1300 28 1440 76 L1440 126 L0 126Z" fill="#f9fbfd"></path>
-      <path d="M0 58 C210 110 360 14 572 56 S930 112 1100 50 S1300 28 1440 76" fill="none" stroke="#8eb3d1" stroke-width="1.6"></path>
+    <svg
+      viewBox="0 0 1440 126"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M0 58 C210 110 360 14 572 56 S930 112 1100 50 S1300 28 1440 76 L1440 126 L0 126Z"
+        fill="#f9fbfd"
+      ></path>
+      <path
+        d="M0 58 C210 110 360 14 572 56 S930 112 1100 50 S1300 28 1440 76"
+        fill="none"
+        stroke="#8eb3d1"
+        stroke-width="1.6"
+      ></path>
     </svg>
     <a class="hero__scroll" href="#throughline">
-      Scroll through the field notes<span class="hero__orb" aria-hidden="true">↓</span>
+      Scroll through the field notes
+      <span class="hero__orb" aria-hidden="true">
+        ↓
+      </span>
     </a>
   </div>
 </section>
@@ -69,7 +106,8 @@ const pills = ["Translational oncology", "Biology & Chemistry", "Bioinformatics 
     min-height: var(--hero-min);
     display: grid;
     align-items: center;
-    padding-block: calc(var(--header-h) + clamp(2rem, 5vw, 4rem)) clamp(8rem, 12vw, 11rem);
+    padding-block: calc(var(--header-h) + clamp(2rem, 5vw, 4rem))
+      clamp(8rem, 12vw, 11rem);
     background: #101c2c;
     color: #fff;
     overflow: hidden;
@@ -99,7 +137,12 @@ const pills = ["Translational oncology", "Biology & Chemistry", "Bioinformatics 
         rgba(8, 19, 34, 0.3) 70%,
         rgba(8, 19, 34, 0.18) 100%
       ),
-      linear-gradient(180deg, rgba(8, 17, 29, 0.28) 0%, rgba(8, 17, 29, 0.1) 45%, rgba(8, 17, 29, 0.5) 100%);
+      linear-gradient(
+        180deg,
+        rgba(8, 17, 29, 0.28) 0%,
+        rgba(8, 17, 29, 0.1) 45%,
+        rgba(8, 17, 29, 0.5) 100%
+      );
   }
 
   .hero__inner {
@@ -199,7 +242,10 @@ const pills = ["Translational oncology", "Biology & Chemistry", "Bioinformatics 
     font-size: 0.9rem;
     font-weight: 650;
     text-decoration: none;
-    transition: background-color var(--dur-ui), color var(--dur-ui), border-color var(--dur-ui);
+    transition:
+      background-color var(--dur-ui),
+      color var(--dur-ui),
+      border-color var(--dur-ui);
   }
 
   .hero__btn:hover {
@@ -295,7 +341,9 @@ const pills = ["Translational oncology", "Biology & Chemistry", "Bioinformatics 
     border-radius: 50%;
     background: #fff;
     font-size: 0.85rem;
-    transition: border-color var(--dur-ui), color var(--dur-ui);
+    transition:
+      border-color var(--dur-ui),
+      color var(--dur-ui);
   }
 
   .hero__scroll:hover .hero__orb {
@@ -345,7 +393,12 @@ const pills = ["Translational oncology", "Biology & Chemistry", "Bioinformatics 
     }
 
     .hero__scrim {
-      background: linear-gradient(180deg, rgba(8, 18, 31, 0.66) 0%, rgba(8, 18, 31, 0.82) 50%, rgba(8, 18, 31, 0.93) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(8, 18, 31, 0.66) 0%,
+        rgba(8, 18, 31, 0.82) 50%,
+        rgba(8, 18, 31, 0.93) 100%
+      );
     }
 
     .hero__scroll {

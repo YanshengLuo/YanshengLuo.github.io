@@ -54,5 +54,7 @@ if (header && toggle && panel) {
   });
 
   // Reset when resizing into the desktop layout.
-  window.matchMedia("(min-width: 48rem)").addEventListener("change", () => setOpen(false));
+  window
+    .matchMedia("(min-width: 48rem)")
+    .addEventListener("change", () => setOpen(false));
 }

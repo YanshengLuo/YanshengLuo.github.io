@@ -12,8 +12,12 @@ if (dialog && typeof dialog.showModal === "function") {
   const caption = dialog.querySelector<HTMLElement>("[data-lightbox-caption]");
   const count = dialog.querySelector<HTMLElement>("[data-lightbox-count]");
   const nav = dialog.querySelector<HTMLElement>("[data-lightbox-nav]");
-  const closeButton = dialog.querySelector<HTMLButtonElement>("[data-lightbox-close]");
-  const triggers = [...document.querySelectorAll<HTMLAnchorElement>("[data-lightbox-trigger]")];
+  const closeButton = dialog.querySelector<HTMLButtonElement>(
+    "[data-lightbox-close]",
+  );
+  const triggers = [
+    ...document.querySelectorAll<HTMLAnchorElement>("[data-lightbox-trigger]"),
+  ];
   let opener: HTMLElement | null = null;
   let index = 0;
 
@@ -29,7 +33,9 @@ if (dialog && typeof dialog.showModal === "function") {
     if (width) image.width = Number(width);
     if (height) image.height = Number(height);
     caption.textContent = text ?? "";
-    if (count) count.textContent = triggers.length > 1 ? `${index + 1} / ${triggers.length}` : "";
+    if (count)
+      count.textContent =
+        triggers.length > 1 ? `${index + 1} / ${triggers.length}` : "";
   };
 
   triggers.forEach((trigger, i) => {
@@ -44,8 +50,12 @@ if (dialog && typeof dialog.showModal === "function") {
   });
 
   closeButton?.addEventListener("click", () => dialog.close());
-  dialog.querySelector("[data-lightbox-prev]")?.addEventListener("click", () => show(index - 1));
-  dialog.querySelector("[data-lightbox-next]")?.addEventListener("click", () => show(index + 1));
+  dialog
+    .querySelector("[data-lightbox-prev]")
+    ?.addEventListener("click", () => show(index - 1));
+  dialog
+    .querySelector("[data-lightbox-next]")
+    ?.addEventListener("click", () => show(index + 1));
 
   dialog.addEventListener("keydown", (event) => {
     if (!dialog.open) return;

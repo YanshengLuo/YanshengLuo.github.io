@@ -20,6 +20,10 @@ export interface SocialLink {
 export const socialLinks: SocialLink[] = [
   { label: "Email", href: links.email, display: EMAIL },
   { label: "GitHub", href: links.github, display: "github.com/YanshengLuo" },
-  { label: "LinkedIn", href: links.linkedin, display: "linkedin.com/in/yansheng-luo" },
+  {
+    label: "LinkedIn",
+    href: links.linkedin,
+    display: "linkedin.com/in/yansheng-luo",
+  },
   { label: "ORCID", href: links.orcid, display: "0009-0007-6127-7774" },
 ];

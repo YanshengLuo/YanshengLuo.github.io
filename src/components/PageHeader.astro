@@ -19,12 +19,22 @@ interface Props {
   titleId?: string;
 }
 
-const { index, section, title, lede, facts, accent = "#164e73", titleId } = Astro.props;
+const {
+  index,
+  section,
+  title,
+  lede,
+  facts,
+  accent = "#164e73",
+  titleId,
+} = Astro.props;
 ---
 
 <header class="page-head" style={`--page-accent: ${accent}`}>
   <p class="page-head__meta">
-    <span class="page-head__index">{index} / {section}</span>
+    <span class="page-head__index">
+      {index} / {section}
+    </span>
     <span class="page-head__rule" aria-hidden="true"></span>
     <span class="page-head__owner">Yansheng Luo · University of Florida</span>
   </p>
@@ -33,18 +43,22 @@ const { index, section, title, lede, facts, accent = "#164e73", titleId } = Astr
     <div class="page-head__main">
       <h1 id={titleId}>{title}</h1>
       <p class="page-head__lede">{lede}</p>
-      {Astro.slots.has("default") && <div class="page-head__extra"><slot /></div>}
+      {Astro.slots.has("default") && (
+        <div class="page-head__extra">
+          <slot />
+        </div>
+      )}
     </div>
 
     <dl class="page-head__facts">
-      {
-        facts.map((fact) => (
-          <div>
-            <dt>{fact.label}</dt>
-            <dd>{fact.href ? <a href={fact.href}>{fact.value}</a> : fact.value}</dd>
-          </div>
-        ))
-      }
+      {facts.map((fact) => (
+        <div>
+          <dt>{fact.label}</dt>
+          <dd>
+            {fact.href ? <a href={fact.href}>{fact.value}</a> : fact.value}
+          </dd>
+        </div>
+      ))}
     </dl>
   </div>
 </header>
