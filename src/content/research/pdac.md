@@ -3,74 +3,94 @@ title: Barcode lineage tracing of pancreatic cancer evolution
 shortTitle: PDAC clonal evolution
 label: MD Anderson Cancer Center · Yao Lab · Summer 2026
 homeMeta: 2026 · MD Anderson Cancer Center
+snapshotMeta: MD Anderson · Summer 2026
 projectMeta: MD Anderson · Summer 2026
-question: How do different modes and treatment histories of KRAS suppression shape clonal selection and routes to resistance in pancreatic ductal adenocarcinoma?
-role: Developed and iteratively refined a reproducible computational workflow for lineage-tracing analysis, built the R analyses, and contributed to supporting model characterization.
+question: How can lineage tracing be used to study clonal selection and resistance-associated evolution under KRAS-directed therapeutic perturbation in pancreatic ductal adenocarcinoma?
+role: Developed and iteratively refined a reproducible computational workflow for lineage-tracing analysis, implemented the analyses in R, and contributed to supporting characterization of the experimental model.
 methods:
   - Barcode lineage tracing
   - Reproducible R analysis
-  - Clonal abundance and composition
+  - Clonal composition analysis
   - Differential abundance
   - Dimensionality reduction and clustering
-  - Trajectory comparison
-  - Robustness analysis
-  - Proteomic quality control
-status: Presented as a poster and lightning talk, August 2026 · study unpublished
+  - Longitudinal pattern analysis
+  - Reproducibility and robustness assessment
+  - Complementary proteomic quality control
+status: Presented as a poster and lightning talk at MD Anderson Cancer Center in August 2026 · study unpublished
 outputs:
   - type: Poster and lightning talk
-    title: "Different Routes to Resistance: Multifaceted KRAS Inhibition Directs Distinct Clonal Evolution in Pancreatic Ductal Adenocarcinoma"
+    title: Clonal evolution under KRAS-directed therapeutic perturbation in pancreatic ductal adenocarcinoma
     venue: MD Anderson Cancer Center, Houston, TX
-    date: Aug 2026
+    date: August 2026
     state: Presented · Luo, Y., Zeng, Y., Attanasio, S., et al.
-  - type: Ongoing unpublished study
+  - type: Ongoing unpublished work
     title: Clonal evolution under therapeutic perturbation
     venue: MD Anderson Cancer Center
-    state: Unpublished study; clone-level findings are not shown here
-summary: At MD Anderson Cancer Center, I worked in Dr. Wantong Yao's laboratory on pancreatic ductal adenocarcinoma and therapeutic resistance. I analyzed barcode lineage-tracing data to study how different modes and treatment histories of KRAS suppression were associated with clonal selection. I developed a multi-evidence analysis framework and supported proteomic quality control and interpretation across treatment-response states.
-intro: During my 2026 summer research at MD Anderson Cancer Center in Dr. Wantong Yao's laboratory, I used barcode lineage tracing to investigate how distinct therapeutic perturbations shape clonal evolution and the emergence of resistance in pancreatic ductal adenocarcinoma.
+    state: Ongoing unpublished work. Project-specific findings are intentionally not displayed publicly.
+summary: During Summer 2026 at MD Anderson Cancer Center in Dr. Wantong Yao's laboratory, I developed a reproducible R workflow for barcode lineage-tracing analysis in pancreatic ductal adenocarcinoma. My work included clonal composition, differential abundance, longitudinal pattern analysis, biological-replicate reproducibility, robustness assessment, complementary proteomic analysis, and support for experimental-model characterization.
+intro: During my 2026 summer research at MD Anderson Cancer Center in Dr. Wantong Yao’s laboratory, I used barcode lineage tracing and computational analysis to study clonal evolution under therapeutic perturbation in pancreatic ductal adenocarcinoma.
+publicNote:
+  title: Public-facing project note
+  text: This page is a deliberately desensitized overview of an ongoing, unpublished research project. To protect non-public study information, underlying datasets, clone-level findings, treatment-group results, candidate identities, quantitative outcomes, and internal experimental details are not disclosed. The purpose of this page is to summarize the scientific question, the analytical work I performed, and the scope of the project at a high level.
 tier: primary
 order: 1
 privacy: SUMMARY_ONLY
 seoTitle: Barcode Lineage Tracing in Pancreatic Cancer | Yansheng Luo
-description: Reproducible barcode lineage-tracing analysis of clonal selection and therapeutic resistance in pancreatic ductal adenocarcinoma, with a multi-evidence framework for prioritizing patterns for follow-up.
+description: A public-facing overview of barcode lineage-tracing research and reproducible computational analysis of clonal evolution under KRAS-directed therapeutic perturbation in pancreatic ductal adenocarcinoma.
 ---
 
 ## The question
 
-Therapy changes the selective environment of a heterogeneous tumor population. This project asked how different modes and treatment histories of KRAS suppression are associated with clonal selection and evolutionary routes to resistance in pancreatic ductal adenocarcinoma (PDAC).
+Therapy changes the selective environment experienced by a heterogeneous tumor population. This project used lineage-tracing data to investigate how clonal populations change under KRAS-directed therapeutic perturbation and how those changes can be analyzed reproducibly.
+
+The public description is intentionally limited to the general scientific problem and analytical approach. Specific treatment comparisons and study outcomes are not presented.
 
 ## Analytical challenge
 
-Barcode lineage tracing produces a high-dimensional record of which lineages persist as a tumor population changes. The challenge was not simply to identify abundance shifts, but to distinguish credible, recurring patterns from dominant single-sample events, sampling effects, and analytical sensitivity.
+Barcode lineage tracing produces a high-dimensional record of lineage persistence and change across experimental conditions. The analytical challenge was to distinguish reproducible patterns from sample-specific observations, sampling variability, and sensitivity to analytical choices.
+
+This required evaluating patterns across biological replicates and building an analysis framework that preserved uncertainty rather than treating every observed change as equally informative.
 
 ## My contribution
 
-- Developed and iteratively refined a reproducible computational workflow for barcode lineage-tracing analysis.
-- Analyzed clonal abundance and composition using differential abundance, dimensionality reduction, clustering, and trajectory-style comparisons.
-- Evaluated recurrence across biological replicates and distinguished treatment-associated patterns from sample-specific observations.
-- Examined lower-abundance lineages so that dominant clones alone did not determine interpretation.
-- Built a multi-criterion prioritization framework and assessed whether candidate rankings were robust to reasonable analytical choices.
-- Supported quality control and reproducible analysis of human PDAC mass-spectrometry profiles, comparing generalized treatment-response states and relating that context to the lineage analysis.
-- Contributed to supporting characterization and validation of the experimental model.
+I developed and iteratively refined a reproducible computational workflow for barcode lineage-tracing analysis in R.
+
+My work included analysis of clonal composition, differential abundance, dimensionality reduction, clustering, longitudinal patterns, and reproducibility across biological replicates.
+
+I also developed a multi-criterion approach for prioritizing lineage-level observations for further investigation while avoiding over-interpretation of isolated or weakly supported patterns.
+
+In parallel, I performed quality control and reproducible analysis of complementary proteomic data to provide broader molecular context for the study.
+
+I also contributed to supporting characterization and validation of the experimental model.
 
 ## How candidates were prioritized
 
-The reproducible analysis framework I developed integrates complementary evidence before prioritizing a lineage pattern for biological follow-up. It considers abundance, recurrence, treatment association, longitudinal behavior, and robustness across biological replicates rather than relying on one statistic.
+I developed an analytical framework that evaluated multiple independent forms of evidence before a lineage-level observation was prioritized for biological follow-up.
 
-The workflow retained ambiguous or low-evidence trajectories for cautious interpretation instead of forcing every lineage into a category. A dramatic shift in one sample was not treated as stronger evidence than a more moderate pattern that recurred across replicates. The framework describes an analysis approach; it is not a claim that lineage rankings identify molecular mechanisms.
+The framework considered consistency across biological replicates, strength and reproducibility of the observed pattern, longitudinal behavior, and robustness to reasonable analytical choices. Importantly, observations with insufficient or conflicting evidence were retained as uncertain rather than being forced into a predefined category.
 
-## What the analyses supported
+This framework was designed for hypothesis prioritization. It does not imply that computationally prioritized lineages represent established molecular mechanisms of resistance.
 
-The analyses supported substantial clonal selection and treatment-history-associated differences in clonal patterns. No single universal dominant lineage adequately explained the resistance-associated patterns. Reproducibility across biological replicates helped separate recurring patterns from striking but sample-specific events, producing a focused set of hypotheses for follow-up.
+<div id="what-the-analyses-supported" class="legacy-anchor" aria-hidden="true"></div>
 
-These are lineage-level observations and interpretations. They suggest that distinct selective environments may favor different evolutionary trajectories, but do not establish causal resistance mechanisms. Prioritized lineages remain hypotheses for subsequent experimental investigation.
+## Interpretation scope
+
+Because this work remains unpublished, study-specific findings, treatment comparisons, candidate rankings, quantitative outcomes, and clone-level results are not presented on this website.
+
+The computational analyses were used to identify and prioritize lineage-level patterns that could motivate subsequent biological investigation. Barcode lineage tracing can reveal how lineages persist, expand, or decline under experimental perturbation, but lineage behavior alone does not establish the molecular mechanism responsible for those changes.
 
 ## Limitations
 
-Barcode lineage tracing records which lineages persist, not why. Associations in a model system do not establish a biological mechanism, and candidate rankings depend on the evidence considered. Follow-up sequencing or functional assays would be needed to test whether prioritized lineages reflect distinct resistance strategies. The mass-spectrometry analysis provides complementary proteomic context; it does not by itself validate a lineage-level mechanism.
+Barcode lineage tracing records changes in lineage representation but does not by itself explain the biological mechanisms underlying those changes.
+
+Observed lineage patterns remain dependent on the experimental model, biological sampling, and analytical assumptions. Functional experiments, molecular characterization, or additional sequencing would be required to establish causal resistance mechanisms.
+
+Complementary proteomic analysis provides broader molecular context but does not independently establish a lineage-specific mechanism.
 
 ## Status
 
-Presented as a poster and lightning talk at MD Anderson Cancer Center in August 2026. The study is unpublished; clone-level results and internal experimental details are not presented here.
+Presented as a poster and lightning talk at MD Anderson Cancer Center in August 2026. The study remains unpublished.
+
+This webpage has been intentionally desensitized for public presentation. No underlying datasets, clone-level findings, treatment-group outcomes, candidate identities or rankings, quantitative study results, or internal experimental details are displayed.
 
 <figure class="figure--photo"><a data-lightbox-trigger href="/images/mdanderson-trainees-2000.webp" data-full="/images/mdanderson-trainees-2000.webp" data-width="2000" data-height="1500" data-alt="Group photograph of summer research trainees in the ITERT program at MD Anderson Cancer Center, 2026." data-caption="With fellow ITERT summer research trainees at MD Anderson Cancer Center, 2026."><img src="/images/mdanderson-trainees-1200.webp" width="1200" height="900" alt="Group photograph of summer research trainees in the ITERT program at MD Anderson Cancer Center, 2026." loading="lazy" decoding="async"></a><figcaption>With fellow ITERT summer research trainees at MD Anderson Cancer Center, 2026.</figcaption></figure>

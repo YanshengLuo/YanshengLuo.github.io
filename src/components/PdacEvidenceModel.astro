@@ -3,108 +3,19 @@ interface Props {
   id: string;
 }
 const { id } = Astro.props;
-const nodes = [
-  {
-    key: "recurrence",
-    label: "Recurrence",
-    explanation:
-      "Tests whether the candidate pattern appears repeatedly rather than as a one-off observation.",
-  },
-  {
-    key: "abundance",
-    label: "Abundance",
-    explanation:
-      "Considers lineage abundance in the context of detection and sampling.",
-  },
-  {
-    key: "effect",
-    label: "Effect size",
-    explanation:
-      "Captures the magnitude of treatment-associated change rather than relying on presence alone.",
-  },
-  {
-    key: "specificity",
-    label: "Treatment association",
-    explanation:
-      "Asks whether a pattern is associated with a treatment context or appears more broadly.",
-  },
-  {
-    key: "trajectory",
-    label: "Longitudinal behavior",
-    explanation:
-      "Compares how lineage patterns behave across broader treatment histories.",
-  },
-  {
-    key: "robustness",
-    label: "Robustness",
-    explanation:
-      "Checks whether prioritization survives reasonable analytical choices and sensitivity tests.",
-  },
-  {
-    key: "proteomic",
-    label: "Proteomic context",
-    explanation:
-      "Adds complementary mass-spectrometry context across human PDAC treatment-response states.",
-  },
-];
 import "../styles/evidence-model.css";
 ---
 
-<div class="evidence" id={id} data-evidence-model data-active="center">
-  <div
-    class="evidence__map"
-    role="group"
-    aria-label="Forms of evidence used to prioritize a candidate clonal pattern"
-  >
-    <button
-      type="button"
-      class="evidence__center"
-      data-evidence-reset
-      aria-controls={id + "-callout"}
-    >
-      <span>Candidate clonal pattern</span>
-      <small>Consider evidence together</small>
-      <span class="visually-hidden"> — show all evidence</span>
-    </button>
-    {nodes.slice(0, 6).map((node) => (
-      <button
-        type="button"
-        class="evidence__node"
-        data-evidence-node={node.key}
-        aria-pressed="false"
-      >
-        {node.label}
-      </button>
-    ))}
-  </div>
-  <button
-    type="button"
-    class="evidence__proteomic"
-    data-evidence-node="proteomic"
-    aria-pressed="false"
-  >
-    <span>Proteomic context</span>
-    <strong>Mass-spectrometry QC</strong>
-  </button>
-  <div class="evidence__callout" id={id + "-callout"} aria-live="polite">
-    <p class="evidence__callout-label">Analysis logic / conceptual model</p>
-    <p data-evidence-description>
-      No single statistic was sufficient. The analysis combined several
-      independent forms of evidence before a pattern was prioritized.
-    </p>
-    <p class="evidence__tags" data-evidence-tags aria-hidden="true"></p>
-  </div>
-  <dl class="evidence__fallback">
-    {nodes.map((node) => (
-      <div>
-        <dt>{node.label}</dt>
-        <dd>{node.explanation}</dd>
-      </div>
-    ))}
-  </dl>
-  <p class="evidence__caption">
-    Analysis logic / conceptual model. No clone-level study results are
-    displayed.
-  </p>
-</div>
-<script src="../scripts/evidence-model.ts"></script>
+<figure class="evidence" id={id} aria-label="Conceptual analysis workflow">
+  <ol class="evidence__flow">
+    <li>Lineage-tracing data</li>
+    <li>Reproducible pattern analysis</li>
+    <li>Cross-replicate evaluation</li>
+    <li>Hypothesis prioritization</li>
+  </ol>
+  <figcaption class="evidence__caption">
+    The workflow integrates multiple forms of analytical evidence rather than
+    relying on a single statistic or sample. Project-specific results are
+    intentionally not displayed.
+  </figcaption>
+</figure>

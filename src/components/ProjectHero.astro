@@ -18,6 +18,12 @@ const { data, number, domain } = Astro.props;
     <p class="project-head__label">{data.label}</p>
     <h1 class="project-head__title" set:html={emphasize(data.title)} />
     <p class="project-head__intro" set:html={emphasize(data.intro)} />
+    {data.publicNote && (
+      <aside class="project-head__note" aria-labelledby="project-note-title">
+        <h2 id="project-note-title">{data.publicNote.title}</h2>
+        <p>{data.publicNote.text}</p>
+      </aside>
+    )}
   </div>
 </header>
 <style>
@@ -85,6 +91,28 @@ const { data, number, domain } = Astro.props;
     margin-top: 1.6rem;
     font-size: clamp(1.15rem, 1.5vw, 1.45rem);
     line-height: 1.48;
+  }
+  .project-head__note {
+    max-width: 72ch;
+    margin-top: 1.35rem;
+    padding: 1rem 1.15rem;
+    border: 1px solid color-mix(in srgb, var(--project-accent) 24%, white);
+    border-left: 3px solid var(--project-accent);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--project-accent) 4%, white);
+  }
+  .project-head__note h2 {
+    color: var(--project-accent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.075em;
+    text-transform: uppercase;
+  }
+  .project-head__note p {
+    margin-top: 0.4rem;
+    color: var(--ink-2);
+    font-size: 0.83rem;
+    line-height: 1.55;
   }
   @media (min-width: 1200px) {
     .project-head__rail {

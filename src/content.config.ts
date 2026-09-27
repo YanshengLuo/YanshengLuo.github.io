@@ -53,6 +53,12 @@ const research = defineCollection({
     summary: z.string(),
     /** Opening paragraph on the project page. */
     intro: z.string(),
+    publicNote: z
+      .object({
+        title: z.string(),
+        text: z.string(),
+      })
+      .optional(),
     /** Scientific hierarchy: primary work, experimental foundation, supporting work. */
     tier: z.enum(["primary", "foundation", "supporting"]),
     /** Approved photograph used as the homepage thumbnail, where one exists. */
